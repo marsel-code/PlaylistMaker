@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundSetting"
+    android:orientation="vertical"
+    tools:context=".SettingsActivity">
+
+    <!--    <com.google.android.material.appbar.MaterialToolbar-->
+    <!--        android:id="@+id/backMain"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="56dp"-->
+    <!--        app:navigationIcon="@drawable/back"-->
+    <!--        app:title="@string/setting" />-->
+
+    <TextView
+        android:id="@+id/backMain"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:drawablePadding="25dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/setting"
+        android:textColor="@color/settingText"
+        android:textSize="@dimen/text22"
+        app:drawableLeftCompat="@drawable/back"
+        app:drawableTint="@color/settingText"
+        tools:ignore="RtlSymmetry" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center_vertical"
+            android:text="@string/black_theam"
+            android:textColor="@color/settingText"
+            android:textSize="@dimen/text16"
+            android:thumbTint="@color/settingSwitchKnob"
+            android:trackTint="@color/settingSwitchTrack"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center_vertical"
+            android:text="@string/share_app"
+            android:textColor="@color/settingText"
+            android:textSize="@dimen/text16"
+            app:drawableRightCompat="@drawable/share"
+            app:drawableTint="@color/settingIcon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center_vertical"
+            android:text="@string/support_write"
+            android:textColor="@color/settingText"
+            android:textSize="@dimen/text16"
+            app:drawableRightCompat="@drawable/support"
+            app:drawableTint="@color/settingIcon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:gravity="center_vertical"
+            android:text="@string/agreement_user"
+            android:textColor="@color/settingText"
+            android:textSize="@dimen/text16"
+            app:drawableRightCompat="@drawable/forward"
+            app:drawableTint="@color/settingIcon" />
+    </LinearLayout>
+</LinearLayout>
