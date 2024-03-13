@@ -2,8 +2,10 @@
 <resources>
 
     <dimen name="text22"> 22sp </dimen>
-    <dimen name="iconPadding"> 8sp </dimen>
-    <dimen name="buttonR"> 8sp </dimen>
+    <dimen name="iconPadding"> 8dp </dimen>
+    <dimen name="buttonR"> 16dp </dimen>
     <dimen name="text16"> 16sp </dimen>
-
+    <dimen name="padding16"> 16dp </dimen>
+    <dimen name="heightSettingText"> 61dp </dimen>
+    <dimen name="dividerMain"> 12dp </dimen>
 </resources>

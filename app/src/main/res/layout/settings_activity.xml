@@ -8,13 +8,6 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <!--    <com.google.android.material.appbar.MaterialToolbar-->
-    <!--        android:id="@+id/backMain"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        app:navigationIcon="@drawable/back"-->
-    <!--        app:title="@string/setting" />-->
-
     <TextView
         android:id="@+id/backMain"
         android:layout_width="wrap_content"
@@ -34,11 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/padding16">
 
         <Switch
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="@dimen/heightSettingText"
             android:gravity="center_vertical"
             android:text="@string/black_theam"
             android:textColor="@color/settingText"
@@ -49,7 +42,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="@dimen/heightSettingText"
             android:gravity="center_vertical"
             android:text="@string/share_app"
             android:textColor="@color/settingText"
@@ -59,7 +52,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="@dimen/heightSettingText"
             android:gravity="center_vertical"
             android:text="@string/support_write"
             android:textColor="@color/settingText"
@@ -69,7 +62,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="@dimen/heightSettingText"
             android:gravity="center_vertical"
             android:text="@string/agreement_user"
             android:textColor="@color/settingText"

@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:id="@+id/main"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:text="@string/playlist_maker"
         android:textColor="@color/white"
@@ -23,7 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/padding16"
+        android:divider="@drawable/divider"
+        android:showDividers="middle">
 
         <Button
             android:id="@+id/search"

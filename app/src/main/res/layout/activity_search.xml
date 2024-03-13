@@ -15,8 +15,6 @@
         android:textColor="@color/settingText"
         android:textSize="@dimen/text16"
         app:drawableRightCompat="@drawable/search"
-        app:drawableTint="@color/settingIcon"
-
-        />
+        app:drawableTint="@color/settingIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
