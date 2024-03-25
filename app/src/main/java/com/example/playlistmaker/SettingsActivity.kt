@@ -28,9 +28,6 @@ class SettingsActivity : AppCompatActivity() {
 
         val supportButton = findViewById<TextView>(R.id.support)
         supportButton.setOnClickListener {
-            val SUBJECT = "Сообщение разработчикам и разработчицам приложения Playlist Maker!"
-            val message = "Спасибо разработчикам и разработчицам за крутое приложение!"
-            val messag = getString(R.string.media)
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
             shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.supportMail)))
@@ -41,7 +38,6 @@ class SettingsActivity : AppCompatActivity() {
 
         val agreementUserButton = findViewById<TextView>(R.id.agreementUser)
         agreementUserButton.setOnClickListener {
-            val agreementUser = "https://yandex.ru/legal/practicum_offer/"
             val shareIntent = Intent(Intent.ACTION_VIEW)
             shareIntent.data = Uri.parse(getString(R.string.agreementUser))
             startActivity(shareIntent)
