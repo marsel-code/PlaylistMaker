@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/backMain"
-        style="@style/HeaderSettings"
-        android:text="@string/setting"
-        app:drawableLeftCompat="@drawable/back" />
+        style="@style/ToolbarTitleText"
+        app:navigationIcon="@drawable/back"
+        app:title="@string/setting"
+        app:titleTextAppearance="@style/ToolbarTitleText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,5 +42,6 @@
             style="@style/TextStyleSettings"
             android:text="@string/agreement_user"
             app:drawableRightCompat="@drawable/forward" />
+
     </LinearLayout>
 </LinearLayout>

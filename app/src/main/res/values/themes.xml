@@ -16,14 +16,17 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/blue</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorSecondary</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
-<!--        <item name="android:background">?attr/colorPrimary</item>-->
-<!--       <item name="android:background">@color/background</item>-->
-<!--        <item name="colorPrimaryDark">@color/blue</item>-->
-<!--        <item name="android:windowLightStatusBar">true</item>-->
 
     </style>
 
+
+    <style name="Theme.PlaylistMaker.Main"  >
+
+        <item name="android:statusBarColor">?attr/colorSecondary</item>
+        <!-- Customize your theme here. -->
+    </style>
 
 </resources>

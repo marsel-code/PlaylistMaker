@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/media"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MediaActivity">
 
-    <TextView
-        style="@style/TextStyleSettings"
-        android:text="@string/mediaToast"
-        app:drawableRightCompat="@drawable/media" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/backMain"
+        style="@style/ToolbarTitleText"
+        app:navigationIcon="@drawable/back"
+        app:title="@string/media"
+        app:titleTextAppearance="@style/ToolbarTitleText" />
 
 </LinearLayout>

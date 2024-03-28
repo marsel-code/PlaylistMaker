@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
@@ -12,7 +13,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.settings_activity)
-        val backButton = findViewById<TextView>(R.id.backMain)
+
+        val backButton = findViewById<androidx.appcompat.widget.Toolbar>(R.id.backMain)
         backButton.setOnClickListener {
             val backButtonIntent = Intent(this, MainActivity::class.java)
             startActivity(backButtonIntent)

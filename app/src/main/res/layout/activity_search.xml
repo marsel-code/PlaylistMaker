@@ -2,14 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
-    <TextView
-        style="@style/TextStyleSettings"
-        android:text="@string/searchToast"
-        app:drawableRightCompat="@drawable/search" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/backMain"
+        style="@style/ToolbarTitleText"
+        app:navigationIcon="@drawable/back"
+        app:title="@string/search"
+        app:titleTextAppearance="@style/ToolbarTitleText" />
 
+    <LinearLayout
+        android:id="@+id/search"
+        style="@style/SearchLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding16"
+        android:background="@drawable/edit_text_round"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/inputEditText"
+            style="@style/EditText"
+            android:drawableStart="@drawable/search_icon"
+            android:hint="@string/input_hint" />
+
+        <ImageView
+            android:id="@+id/clearIcon"
+            style="@style/SearchLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/clear"
+            android:visibility="gone" />
+
+    </LinearLayout>
 </LinearLayout>
