@@ -22,15 +22,14 @@ import androidx.core.view.WindowInsetsCompat
 class SearchActivity : AppCompatActivity() {
 
     private var editTextValue: String? = null
+    private lateinit var inputEditText: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         val backButton = findViewById<Toolbar>(R.id.backMain)
-        val inputEditText = findViewById<EditText>(R.id.inputEditText)
+        inputEditText = findViewById<EditText>(R.id.inputEditText)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
-
-        inputEditText.setText(editTextValue)
 
         backButton.setOnClickListener {
             val backButtonIntent = Intent(this, MainActivity::class.java)
@@ -48,20 +47,17 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // empty
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 editTextValue = s.toString()
                 Log.d(TAG, "textWatcher $editTextValue")
             }
-
             override fun afterTextChanged(s: Editable?) {
                 // empty
             }
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
     }
-
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
@@ -78,6 +74,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         editTextValue = savedInstanceState.getString(KEY_TEXT)
+        inputEditText.setText(editTextValue)
         Log.d(TAG, "onRestoreInstanceState ${editTextValue}")
     }
 

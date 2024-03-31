@@ -15,15 +15,14 @@
         app:title="@string/search"
         app:titleTextAppearance="@style/ToolbarTitleText" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/search"
         style="@style/SearchLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/padding16"
         android:layout_marginStart="@dimen/padding16"
-        android:background="@drawable/edit_text_round"
-        android:orientation="horizontal">
+        android:layout_marginEnd="@dimen/padding16"
+        android:background="@drawable/edit_text_round">
 
         <EditText
             android:id="@+id/inputEditText"
@@ -36,10 +35,10 @@
             style="@style/SearchLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="end|center_vertical"
             android:paddingEnd="@dimen/iconPadding"
             android:src="@drawable/clear"
             android:visibility="gone" />
 
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
