@@ -3,13 +3,16 @@ package com.example.playlistmaker
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +20,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class SearchActivity : AppCompatActivity() {
+
+    private var editTextValue: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -24,6 +29,8 @@ class SearchActivity : AppCompatActivity() {
         val backButton = findViewById<Toolbar>(R.id.backMain)
         val inputEditText = findViewById<EditText>(R.id.inputEditText)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
+
+        inputEditText.setText(editTextValue)
 
         backButton.setOnClickListener {
             val backButtonIntent = Intent(this, MainActivity::class.java)
@@ -44,6 +51,8 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
+                editTextValue = s.toString()
+                Log.d(TAG, "textWatcher $editTextValue")
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -60,4 +69,23 @@ class SearchActivity : AppCompatActivity() {
             View.VISIBLE
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_TEXT, editTextValue)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        editTextValue = savedInstanceState.getString(KEY_TEXT)
+        Log.d(TAG, "onRestoreInstanceState ${editTextValue}")
+    }
+
+    companion object {
+        const val KEY_TEXT = "KEY_TEXT"
+        const val TAG = "SPRINT_9"
+    }
 }
+
+
+
