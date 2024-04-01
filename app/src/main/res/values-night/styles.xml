@@ -54,9 +54,8 @@
     </style>
 
     <style name="EditText">
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/heightEditText</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:background">@color/noColor</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:inputType">text</item>
