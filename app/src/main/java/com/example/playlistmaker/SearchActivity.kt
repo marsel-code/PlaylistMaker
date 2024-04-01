@@ -45,19 +45,20 @@ class SearchActivity : AppCompatActivity() {
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // empty
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 editTextValue = s.toString()
                 Log.d(TAG, "textWatcher $editTextValue")
             }
+
             override fun afterTextChanged(s: Editable?) {
-                // empty
             }
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
     }
+
     private fun clearButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
@@ -79,8 +80,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val KEY_TEXT = "KEY_TEXT"
-        const val TAG = "SPRINT_9"
+        private const val KEY_TEXT = "KEY_TEXT"
+        private const val TAG = "SPRINT_9"
     }
 }
 

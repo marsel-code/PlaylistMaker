@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <dimen name="text22"> 22sp </dimen>
-    <dimen name="iconPadding"> 8dp </dimen>
-    <dimen name="buttonR"> 16dp </dimen>
-    <dimen name="text16"> 16sp </dimen>
-    <dimen name="padding16"> 16dp </dimen>
-    <dimen name="heightSettingText"> 61dp </dimen>
-    <dimen name="dividerMain"> 12dp </dimen>
-    <dimen name="heightToolBar"> 56dp </dimen>
-    <dimen name="heightEditText"> 36dp </dimen>
+    <dimen name="text22">22sp</dimen>
+    <dimen name="iconPadding">8dp</dimen>
+    <dimen name="buttonR">16dp</dimen>
+    <dimen name="text16">16sp</dimen>
+    <dimen name="padding16">16dp</dimen>
+    <dimen name="heightSettingText">61dp</dimen>
+    <dimen name="dividerMain">12dp</dimen>
+    <dimen name="heightToolBar">56dp</dimen>
+    <dimen name="heightEditText">36dp</dimen>
 
 </resources>

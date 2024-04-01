@@ -44,7 +44,5 @@ class SettingsActivity : AppCompatActivity() {
             shareIntent.data = Uri.parse(getString(R.string.agreementUser))
             startActivity(shareIntent)
         }
-
-
     }
 }
