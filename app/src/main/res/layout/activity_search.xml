@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/searchToast"
-        android:textColor="@color/settingText"
-        android:textSize="@dimen/text16"
-        app:drawableRightCompat="@drawable/search"
-        app:drawableTint="@color/settingIcon" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/backMain"
+        style="@style/ToolbarTitleText"
+        app:navigationIcon="@drawable/back"
+        app:title="@string/search"
+        app:titleTextAppearance="@style/ToolbarTitleText" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/search"
+        style="@style/SearchLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding16"
+        android:layout_marginEnd="@dimen/padding16"
+        android:background="@drawable/edit_text_round">
+
+        <EditText
+            android:id="@+id/inputEditText"
+            style="@style/EditText"
+            android:drawableStart="@drawable/search_icon"
+            android:hint="@string/input_hint" />
+
+        <ImageView
+            android:id="@+id/clearIcon"
+            style="@style/SearchLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:paddingEnd="@dimen/iconPadding"
+            android:src="@drawable/clear"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</LinearLayout>

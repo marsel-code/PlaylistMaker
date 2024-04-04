@@ -4,28 +4,27 @@
     <string name="setting">Настройки</string>
     <string name="search">Поиск</string>
     <string name="playlist_maker">Playlist maker</string>
-    <string name="black_theam">Темная тема</string>
+    <string name="black_themes">Темная тема</string>
     <string name="share_app">Поделиться приложением</string>
     <string name="support_write">Написать в поддержку</string>
     <string name="agreement_user">Пользовательское соглашение</string>
     <string name="title_activity_settings">SettingsActivity</string>
-
+    <string name="shareButton">https://practicum.yandex.ru/profile/android-developer/</string>
+    <string name="supportSubject">"Сообщение разработчикам и разработчицам приложения Playlist Maker!"</string>
+    <string name="supportMessage">"Спасибо разработчикам и разработчицам за крутое приложение!"</string>
+    <string name="supportMail">"marsel21vek@ya.ru"</string>
+    <string name="agreementUser">"https://yandex.ru/legal/practicum_offer/"</string>
+    <string name="input_hint">"Поиск"</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
-
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
-
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="mediaToast">Здесь будет МЕДИАКОНТЕНТ</string>
-    <string name="searchToast">Здесь будет ПОИСК</string>
-
-
 </resources>

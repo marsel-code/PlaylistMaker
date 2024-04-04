@@ -2,26 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundSetting"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/backMain"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:drawablePadding="25dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:text="@string/setting"
-        android:textColor="@color/settingText"
-        android:textSize="@dimen/text22"
-        app:drawableLeftCompat="@drawable/back"
-        app:drawableTint="@color/settingText"
-        tools:ignore="RtlSymmetry" />
+        style="@style/ToolbarTitleText"
+        app:navigationIcon="@drawable/back"
+        app:title="@string/setting"
+        app:titleTextAppearance="@style/ToolbarTitleText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,45 +21,27 @@
         android:orientation="vertical"
         android:padding="@dimen/padding16">
 
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heightSettingText"
-            android:gravity="center_vertical"
-            android:text="@string/black_theam"
-            android:textColor="@color/settingText"
-            android:textSize="@dimen/text16"
-            android:thumbTint="@color/settingSwitchKnob"
-            android:trackTint="@color/settingSwitchTrack"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+        <androidx.appcompat.widget.SwitchCompat
+            style="@style/TextStyleSettings"
+            android:text="@string/black_themes" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heightSettingText"
-            android:gravity="center_vertical"
+            android:id="@+id/share"
+            style="@style/TextStyleSettings"
             android:text="@string/share_app"
-            android:textColor="@color/settingText"
-            android:textSize="@dimen/text16"
-            app:drawableRightCompat="@drawable/share"
-            app:drawableTint="@color/settingIcon" />
+            app:drawableRightCompat="@drawable/share" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heightSettingText"
-            android:gravity="center_vertical"
+            android:id="@+id/support"
+            style="@style/TextStyleSettings"
             android:text="@string/support_write"
-            android:textColor="@color/settingText"
-            android:textSize="@dimen/text16"
-            app:drawableRightCompat="@drawable/support"
-            app:drawableTint="@color/settingIcon" />
+            app:drawableRightCompat="@drawable/support" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/heightSettingText"
-            android:gravity="center_vertical"
+            android:id="@+id/agreementUser"
+            style="@style/TextStyleSettings"
             android:text="@string/agreement_user"
-            android:textColor="@color/settingText"
-            android:textSize="@dimen/text16"
-            app:drawableRightCompat="@drawable/forward"
-            app:drawableTint="@color/settingIcon" />
+            app:drawableRightCompat="@drawable/forward" />
+
     </LinearLayout>
 </LinearLayout>
