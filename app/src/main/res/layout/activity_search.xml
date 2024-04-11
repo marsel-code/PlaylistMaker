@@ -22,13 +22,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding16"
         android:layout_marginEnd="@dimen/padding16"
-        android:background="@drawable/edit_text_round">
+        android:background="@drawable/edit_text_round"
+        android:layout_marginTop="@dimen/Search_layout_marginTop"
+        >
 
         <EditText
             android:id="@+id/inputEditText"
             style="@style/EditText"
             android:drawableStart="@drawable/search_icon"
-            android:hint="@string/input_hint" />
+            android:hint="@string/input_hint"
+
+          />
 
         <ImageView
             android:id="@+id/clearIcon"
@@ -39,6 +43,12 @@
             android:paddingEnd="@dimen/iconPadding"
             android:src="@drawable/clear"
             android:visibility="gone" />
-
     </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/padding16"/>
+
 </LinearLayout>
