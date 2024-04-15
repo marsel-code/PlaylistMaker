@@ -41,7 +41,7 @@
             android:id="@+id/agreementUser"
             style="@style/TextStyleSettings"
             android:text="@string/agreement_user"
-            app:drawableRightCompat="@drawable/forward" />
+            app:drawableRightCompat="@drawable/arrow_forward" />
 
     </LinearLayout>
 </LinearLayout>
