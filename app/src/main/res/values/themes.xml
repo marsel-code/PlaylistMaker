@@ -18,6 +18,9 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
+        <item name="colorOnError">@color/black</item>
+
+
 
     </style>
 

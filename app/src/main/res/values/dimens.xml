@@ -19,7 +19,4 @@
     <dimen name="TrackArtistText">11sp</dimen>
     <dimen name="Search_layout_marginTop">8dp</dimen>
 
-    layout_marginTop
-
-
 </resources>
