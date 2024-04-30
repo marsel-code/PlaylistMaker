@@ -17,18 +17,16 @@ class TrackViewHolder(parent: ViewGroup) :
             .inflate(R.layout.track_item, parent, false)
     ) {
 
-    var trackNameView: TextView = itemView.findViewById(R.id.trackName)
-    var artistNameView: TextView = itemView.findViewById(R.id.trackArtist)
-    var trackTimeView: TextView = itemView.findViewById(R.id.trackTime)
-    var artworkUrl100View: ImageView = itemView.findViewById(R.id.trackImage)
-
-    val date: String = SimpleDateFormat("mm:ss", Locale.getDefault()).format(293000L)
+    private var trackNameView: TextView = itemView.findViewById(R.id.trackName)
+    private var artistNameView: TextView = itemView.findViewById(R.id.trackArtist)
+    private var trackTimeView: TextView = itemView.findViewById(R.id.trackTime)
+    private var artworkUrl100View: ImageView = itemView.findViewById(R.id.trackImage)
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     fun bind(model: Track) {
         trackNameView.text = model.trackName
         artistNameView.text = model.artistName
-        trackTimeView.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(model.trackTimeMillis.toLong())
+        trackTimeView.text = dateFormat.format(model.trackTimeMillis)
         Glide.with(itemView)
             .load(model.artworkUrl100)
             .placeholder(R.drawable.no_reply)

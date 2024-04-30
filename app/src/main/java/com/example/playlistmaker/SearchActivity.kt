@@ -39,7 +39,7 @@ class SearchActivity : AppCompatActivity() {
         .build()
 
     private val iTunesService = retrofit.create(iTunesApi::class.java)
-    private val tracksList = ArrayList<Track>()
+    private val tracksList = mutableListOf<Track>()
     private val adapter = TrackAdapter()
     private var editTextValue: String? = ""
     private lateinit var backButton: Toolbar
@@ -49,6 +49,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderMessage: TextView
     private lateinit var placeholderImage: ImageView
     private lateinit var updateButton: Button
+    private lateinit var bodyResults: MutableList<Track>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,12 +144,13 @@ class SearchActivity : AppCompatActivity() {
                 Callback<iTunesTrackResponse> {
                 override fun onResponse(
                     call: Call<iTunesTrackResponse>,
-                    response: Response<iTunesTrackResponse>
+                    response: Response<iTunesTrackResponse>,
                 ) {
-                    if (response.code() == 200) {
+                    if (response.isSuccessful) {
+                        bodyResults = response.body()?.results!!
                         tracksList.clear()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            tracksList.addAll(response.body()?.results!!)
+                        if (bodyResults.isNotEmpty()) {
+                            tracksList.addAll(bodyResults)
                             adapter.notifyDataSetChanged()
                         }
                         if (tracksList.isEmpty()) {
