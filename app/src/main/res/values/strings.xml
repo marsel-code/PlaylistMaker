@@ -29,4 +29,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="something_went_wrong">Проблемы со связью "&#xA;" "&#xA;" Загрузка не удалась. Проверьте "&#xA;" подключение к интернету </string>
+    <string name="Update">Обновить</string>
 </resources>

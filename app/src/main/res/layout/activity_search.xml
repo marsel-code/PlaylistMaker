@@ -21,18 +21,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding16"
-        android:layout_marginEnd="@dimen/padding16"
-        android:background="@drawable/edit_text_round"
         android:layout_marginTop="@dimen/Search_layout_marginTop"
-        >
+        android:layout_marginEnd="@dimen/padding16"
+        android:background="@drawable/edit_text_round">
 
         <EditText
             android:id="@+id/inputEditText"
             style="@style/EditText"
             android:drawableStart="@drawable/search_icon"
             android:hint="@string/input_hint"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
-          />
 
         <ImageView
             android:id="@+id/clearIcon"
@@ -45,10 +45,29 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/trackList"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/padding16"/>
+        android:orientation="vertical">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trackList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/padding16" />
+
+        <ImageView
+            android:id="@+id/placeholderImage"
+            style="@style/placeholderImage" />
+
+        <Button
+            android:id="@+id/updateButton"
+            style="@style/UpdateSearchButton"
+            android:text="@string/Update"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/placeholderMessage"
+            style="@style/ErrorSearchText" />
+    </FrameLayout>
 </LinearLayout>
