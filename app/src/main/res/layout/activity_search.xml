@@ -54,11 +54,18 @@
             android:id="@+id/trackList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/padding16" />
+            android:layout_marginTop="@dimen/padding16"
+            />
 
         <ImageView
             android:id="@+id/placeholderImage"
-            style="@style/placeholderImage" />
+            style="@style/placeholderImage"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/placeholderMessage"
+            style="@style/ErrorSearchText" />
+
 
         <Button
             android:id="@+id/updateButton"
@@ -66,8 +73,30 @@
             android:text="@string/Update"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/placeholderMessage"
-            style="@style/ErrorSearchText" />
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/clearSearchText"
+                style="@style/clearSearchText"
+                android:text="@string/youLooking" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/padding16"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/clearSearchList"
+                style="@style/clearSearchList"
+                android:text="@string/Clear_history" />
+
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>
