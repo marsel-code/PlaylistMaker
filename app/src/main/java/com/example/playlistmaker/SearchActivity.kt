@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -84,8 +85,8 @@ class SearchActivity : AppCompatActivity() {
             inputEditText.setText("")
             inputEditText.clearFocus()
             visibilityError(false)
-            recyclerTrack.visibility = View.GONE
-            searchLayout.visibility = View.GONE
+            recyclerTrack.isVisible = false
+            searchLayout.isVisible = false
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
@@ -93,7 +94,7 @@ class SearchActivity : AppCompatActivity() {
 
         clearSearchListButton.setOnClickListener {
             searchHistoryClass.searchHistoryClear()
-            searchLayout.visibility = View.GONE
+            searchLayout.isVisible = false
         }
 
         val simpleTextWatcher = object : TextWatcher {
@@ -104,7 +105,7 @@ class SearchActivity : AppCompatActivity() {
                 clearButton.visibility = buttonVisibility(s)
                 editTextValue = s.toString()
                 if (inputEditText.hasFocus() && s?.isEmpty() == true) {
-                    recyclerTrack.visibility = View.GONE
+                    recyclerTrack.isVisible = false
                     searchLayout.visibility = visibilitySearchLayout(true)
                     adapterData(searchHistoryClass.searchListFromGson())
                     visibilityError(false)
@@ -130,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
         inputEditText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus && inputEditText.text.isEmpty()) {
                 visibilityError(false)
-                recyclerTrack.visibility = View.GONE
+                recyclerTrack.isVisible = false
                 adapterData(searchHistoryClass.searchListFromGson())
                 searchLayout.visibility = visibilitySearchLayout(true)
             } else {
@@ -140,7 +141,7 @@ class SearchActivity : AppCompatActivity() {
 
         updateButton.setOnClickListener {
             search()
-            updateButton.visibility = View.GONE
+            updateButton.isVisible = false
         }
     }
 
@@ -186,7 +187,7 @@ class SearchActivity : AppCompatActivity() {
                             tracksList.addAll(bodyResults)
                             recyclerTrack.adapter = adapter
                             adapterData(tracksList)
-                            recyclerTrack.visibility = View.VISIBLE
+                            recyclerTrack.isVisible = true
                         }
                         if (tracksList.isEmpty()) {
                             showMessage(getString(R.string.nothing_found), "", R.drawable.no_mode)
@@ -194,7 +195,7 @@ class SearchActivity : AppCompatActivity() {
                             showMessage("", "", R.drawable.error_image)
                         }
                     } else {
-                        updateButton.visibility = View.VISIBLE
+                        updateButton.isVisible = true
                         showMessage(
                             getString(R.string.something_went_wrong),
                             response.code().toString(),
@@ -204,7 +205,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<iTunesTrackResponse>, t: Throwable) {
-                    updateButton.visibility = View.VISIBLE
+                    updateButton.isVisible = true
                     showMessage(
                         getString(R.string.something_went_wrong),
                         t.message.toString(),
@@ -217,8 +218,8 @@ class SearchActivity : AppCompatActivity() {
 
     private fun showMessage(text: String, additionalMessage: String, image: Int) {
         if (text.isNotEmpty()) {
-            placeholderMessage.visibility = View.VISIBLE
-            placeholderImage.visibility = View.VISIBLE
+            placeholderMessage.isVisible = true
+            placeholderImage.isVisible = true
             tracksList.clear()
             adapter.notifyDataSetChanged()
             placeholderMessage.text = text
@@ -228,7 +229,7 @@ class SearchActivity : AppCompatActivity() {
                     .show()
             }
         } else {
-            placeholderMessage.visibility = View.GONE
+            placeholderMessage.isVisible = false
         }
     }
 
@@ -246,26 +247,19 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun visibilitySearchLayout(s: Boolean): Int {
-        return if (s) {
-            if (searchHistoryClass.searchHistory.isNotEmpty()) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        } else {
-            View.GONE
-        }
+        return if ( s && searchHistoryClass.searchHistory.isNotEmpty()) View.VISIBLE
+        else View.GONE
     }
 
     fun visibilityError(s: Boolean) {
         if (s) {
-            placeholderMessage.visibility = View.VISIBLE
-            placeholderImage.visibility = View.VISIBLE
-            updateButton.visibility = View.VISIBLE
+            placeholderMessage.isVisible = true
+            placeholderImage.isVisible = true
+            updateButton.isVisible = true
         } else {
-            placeholderMessage.visibility = View.GONE
-            placeholderImage.visibility = View.GONE
-            updateButton.visibility = View.GONE
+            placeholderMessage.isVisible = false
+            placeholderImage.isVisible = false
+            updateButton.isVisible = false
         }
     }
 }

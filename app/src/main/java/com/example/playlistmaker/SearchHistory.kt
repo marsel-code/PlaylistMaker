@@ -30,12 +30,8 @@ class SearchHistory(private val sharedPrefsSearch: SharedPreferences) {
         while (interator.hasNext()) {
             if (interator.next().trackId == track.trackId) interator.remove()
         }
-        if (searchHistory.isNotEmpty() && searchHistory.size == 10) {
-            searchHistory.removeAt(9)
-            searchHistory.add(0, track)
-        } else {
-            searchHistory.add(0, track)
-        }
+        if (searchHistory.isNotEmpty() && searchHistory.size == 10) searchHistory.removeAt(9)
+        searchHistory.add(0, track)
     }
 
     fun searchHistoryClear() {
