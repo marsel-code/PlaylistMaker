@@ -13,8 +13,7 @@ class MediaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_media)
         val backButton = findViewById<androidx.appcompat.widget.Toolbar>(R.id.backMain)
         backButton.setOnClickListener {
-            val backButtonIntent = Intent(this, MainActivity::class.java)
-            startActivity(backButtonIntent)
+          finish()
         }
     }
 }
