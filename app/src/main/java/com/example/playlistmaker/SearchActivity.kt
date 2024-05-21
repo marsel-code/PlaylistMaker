@@ -1,6 +1,7 @@
 package com.example.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -21,6 +22,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,6 +56,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchHistoryClass: SearchHistory
     private lateinit var sharedPrefsSearch: SharedPreferences
     private lateinit var searchLayout: LinearLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -238,6 +241,12 @@ class SearchActivity : AppCompatActivity() {
 //        Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
         searchHistoryClass.addTrackHistory(track)
         searchHistoryClass.saveSearchList()
+        val trackPlayerIntent = Intent(this@SearchActivity, AudioPlayerActivity::class.java)
+        val trackGson = Gson().toJson(track)
+        trackPlayerIntent.putExtra("AudioPlayerTrack", trackGson)
+        inputEditText.clearFocus()
+        searchLayout.isVisible = false
+        startActivity(trackPlayerIntent)
     }
 
     fun adapterData(trackListAdapter: MutableList<Track>) {
@@ -247,7 +256,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun visibilitySearchLayout(s: Boolean): Int {
-        return if ( s && searchHistoryClass.searchHistory.isNotEmpty()) View.VISIBLE
+        return if (s && searchHistoryClass.searchHistory.isNotEmpty()) View.VISIBLE
         else View.GONE
     }
 
