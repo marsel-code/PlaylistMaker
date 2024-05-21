@@ -231,7 +231,7 @@
     </style>
 
     <style name="trackNamePlayer">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginTop">24dp</item>
@@ -244,7 +244,7 @@
     </style>
 
     <style name="trackArtistPlayer">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginTop">12dp</item>
@@ -315,11 +315,12 @@
     </style>
 
     <style name="meaningTextPlayer">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_marginStart">10dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="layout_constraintHorizontal_bias">1</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
         <item name="android:textColor">@color/black</item>
