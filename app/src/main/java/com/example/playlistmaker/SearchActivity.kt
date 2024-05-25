@@ -172,6 +172,8 @@ class SearchActivity : AppCompatActivity() {
         private const val KEY_TEXT = "KEY_TEXT"
         private const val TAG = "SPRINT_9"
         const val SEARCH_SHARED_PREFERENCES = "search_shared_preferences"
+        private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
+
     }
 
     private fun search() {
@@ -242,8 +244,7 @@ class SearchActivity : AppCompatActivity() {
         searchHistoryClass.addTrackHistory(track)
         searchHistoryClass.saveSearchList()
         val trackPlayerIntent = Intent(this@SearchActivity, AudioPlayerActivity::class.java)
-        val trackGson = Gson().toJson(track)
-        trackPlayerIntent.putExtra("AudioPlayerTrack", trackGson)
+        trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
         inputEditText.clearFocus()
         searchLayout.isVisible = false
         startActivity(trackPlayerIntent)

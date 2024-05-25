@@ -44,19 +44,19 @@
         <TextView
             android:id="@+id/trackNamePlayer"
             style="@style/trackNamePlayer"
-            android:text="@string/no_reply"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/imageTrackPlayer" />
+            app:layout_constraintTop_toBottomOf="@+id/imageTrackPlayer"
+            tools:text="Track Name" />
 
         <TextView
             android:id="@+id/trackArtistPlayer"
             style="@style/trackArtistPlayer"
-            android:text="@string/no_reply"
+            app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
             app:layout_constraintTop_toBottomOf="@+id/trackNamePlayer"
-            app:layout_constraintEnd_toStartOf="@id/right_guideline"/>
+            tools:text="Track Artist" />
 
         <ImageButton
             android:id="@+id/buttonPlayList"
@@ -84,10 +84,10 @@
         <TextView
             android:id="@+id/currentTrackTime"
             style="@style/currentTrackTime"
-            android:text="@string/no_reply"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/buttonPlay" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonPlay"
+            tools:text="currentTrackTime" />
 
         <TextView
             android:id="@+id/headingTrackTime"
@@ -99,11 +99,10 @@
         <TextView
             android:id="@+id/trackTimePlayer"
             style="@style/meaningTextPlayer"
-            android:text="@string/no_reply"
             app:layout_constraintBaseline_toBaselineOf="@id/headingTrackTime"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
             app:layout_constraintStart_toEndOf="@id/headingTrackTime"
-            />
+            tools:text="TrackTime" />
 
         <TextView
             android:id="@+id/headingTrackAlbum"
@@ -115,10 +114,10 @@
         <TextView
             android:id="@+id/trackAlbumPlayer"
             style="@style/meaningTextPlayer"
-            android:text="@string/no_reply"
             app:layout_constraintBaseline_toBaselineOf="@id/headingTrackAlbum"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintStart_toEndOf="@id/headingTrackAlbum"   />
+            app:layout_constraintStart_toEndOf="@id/headingTrackAlbum"
+            tools:text="TrackAlbum" />
 
         <TextView
             android:id="@+id/headingTrackYear"
@@ -130,10 +129,10 @@
         <TextView
             android:id="@+id/trackYearPlayer"
             style="@style/meaningTextPlayer"
-            android:text="@string/no_reply"
             app:layout_constraintBaseline_toBaselineOf="@id/headingTrackYear"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintStart_toEndOf="@id/headingTrackYear" />
+            app:layout_constraintStart_toEndOf="@id/headingTrackYear"
+            tools:text="TrackYear" />
 
         <TextView
             android:id="@+id/headingTrackGenre"
@@ -145,10 +144,10 @@
         <TextView
             android:id="@+id/trackGenrePlayer"
             style="@style/meaningTextPlayer"
-            android:text="@string/no_reply"
             app:layout_constraintBaseline_toBaselineOf="@id/headingTrackGenre"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintStart_toEndOf="@id/headingTrackGenre" />
+            app:layout_constraintStart_toEndOf="@id/headingTrackGenre"
+            tools:text="TrackGenre" />
 
         <TextView
             android:id="@+id/headingTrackCountry"
@@ -160,10 +159,10 @@
         <TextView
             android:id="@+id/trackCountryPlayer"
             style="@style/meaningTextPlayer"
-            android:text="@string/no_reply"
             app:layout_constraintBaseline_toBaselineOf="@id/headingTrackCountry"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-            app:layout_constraintStart_toEndOf="@id/headingTrackCountry" />
+            app:layout_constraintStart_toEndOf="@id/headingTrackCountry"
+            tools:text="TrackCountry" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
