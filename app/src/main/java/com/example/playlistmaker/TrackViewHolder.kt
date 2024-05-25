@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,11 @@ class TrackViewHolder(parent: ViewGroup) :
             .load(model.artworkUrl100)
             .placeholder(R.drawable.no_reply)
             .centerCrop()
-            .transform(RoundedCorners(2))
+            .transform(RoundedCorners(  TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                2F,
+                itemView.resources.displayMetrics
+            ).toInt()))
             .into(artworkUrl100View)
     }
 }

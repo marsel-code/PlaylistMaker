@@ -18,5 +18,7 @@
     <dimen name="TrackNameText">16sp</dimen>
     <dimen name="TrackArtistText">11sp</dimen>
     <dimen name="Search_layout_marginTop">8dp</dimen>
+    <dimen name="Player_constraintGuide">16dp</dimen>
+
 
 </resources>
