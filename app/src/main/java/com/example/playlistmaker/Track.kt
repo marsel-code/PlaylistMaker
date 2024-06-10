@@ -13,6 +13,8 @@ data class Track(
     val releaseDate: String?,
     val primaryGenreName: String?,
     val country: String?,
+    val previewUrl: String?
+
 ) : Parcelable {
     val artworkUrl512
         get() = artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
@@ -22,6 +24,7 @@ data class Track(
         parcel.readString(),
         parcel.readString(),
         parcel.readLong(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -40,6 +43,7 @@ data class Track(
         parcel.writeString(releaseDate)
         parcel.writeString(primaryGenreName)
         parcel.writeString(country)
+        parcel.writeString(previewUrl)
     }
 
     override fun describeContents(): Int {
