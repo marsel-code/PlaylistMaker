@@ -79,10 +79,8 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
         sharedPrefsSearch = getSharedPreferences(SEARCH_SHARED_PREFERENCES, MODE_PRIVATE)
         searchHistoryClass = SearchHistory(sharedPrefsSearch)
-
         backButton = findViewById(R.id.backMain)
         inputEditText = findViewById(R.id.inputEditText)
         clearButton = findViewById(R.id.clearIcon)
@@ -126,13 +124,13 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = buttonVisibility(s)
                 editTextValue = s.toString()
-                searchDebounce()
                 if (inputEditText.hasFocus() && s?.isEmpty() == true) {
                     recyclerTrack.isVisible = false
-                    searchLayout.visibility = visibilitySearchLayout(true)
                     adapterData(searchHistoryClass.searchListFromGson())
+                    searchLayout.visibility = visibilitySearchLayout(true)
                     visibilityError(false)
                 } else {
+                    searchDebounce()
                     searchLayout.visibility = visibilitySearchLayout(false)
                 }
                 Log.d(TAG, "textWatcher $editTextValue")
@@ -158,13 +156,12 @@ class SearchActivity : AppCompatActivity() {
                 adapterData(searchHistoryClass.searchListFromGson())
                 searchLayout.visibility = visibilitySearchLayout(true)
             } else {
-                visibilitySearchLayout(false)
+                searchLayout.visibility = visibilitySearchLayout(false)
             }
         }
 
         updateButton.setOnClickListener {
-            searchRunnable
-            updateButton.isVisible = false
+            search()
         }
     }
 
@@ -188,7 +185,6 @@ class SearchActivity : AppCompatActivity() {
         Log.d(TAG, "onRestoreInstanceState editTextValue")
     }
 
-
     private fun search() {
         if (inputEditText.text.isNotEmpty()) {
             visibilityError(false)
@@ -200,18 +196,21 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<iTunesTrackResponse>,
                     response: Response<iTunesTrackResponse>,
                 ) {
-                    progressBar.visibility = View.GONE
-                    recyclerTrack.isVisible = true
+                    progressBar.isVisible = false
                     if (response.isSuccessful) {
                         bodyResults = response.body()?.results!!
                         tracksList.clear()
                         if (bodyResults.isNotEmpty()) {
+                            val inputMethodManager =
+                                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                            inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
                             tracksList.addAll(bodyResults)
                             recyclerTrack.adapter = adapter
-                            adapterData(tracksList)
+                            adapter.tracksAdapter = tracksList
+                            adapter.notifyDataSetChanged()
                             recyclerTrack.isVisible = true
                         }
-                        if (tracksList.isEmpty()) {
+                        if (bodyResults.isEmpty()) {
                             showMessage(getString(R.string.nothing_found), "", R.drawable.no_mode)
                         } else {
                             showMessage("", "", R.drawable.error_image)
@@ -241,10 +240,10 @@ class SearchActivity : AppCompatActivity() {
 
     private fun showMessage(text: String, additionalMessage: String, image: Int) {
         if (text.isNotEmpty()) {
+            searchLayout.visibility = visibilitySearchLayout(false)
+            recyclerTrack.isVisible = false
             placeholderMessage.isVisible = true
             placeholderImage.isVisible = true
-            tracksList.clear()
-            adapter.notifyDataSetChanged()
             placeholderMessage.text = text
             placeholderImage.setImageResource(image)
             if (additionalMessage.isNotEmpty()) {

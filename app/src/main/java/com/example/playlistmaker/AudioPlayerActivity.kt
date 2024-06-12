@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import com.google.gson.Gson
 import kotlinx.coroutines.Runnable
+import java.lang.RuntimeException
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -115,7 +117,8 @@ class AudioPlayerActivity() : AppCompatActivity() {
         trackTimePlayer.text = timeFormat.format(track.trackTimeMillis)
         headingTrackAlbum.isVisible = !track.collectionName.isNullOrEmpty()
         trackAlbumPlayer.text = track.collectionName
-        trackYearPlayer.text = track.releaseDate?.let { dateFormat.parse(it)?.let { dateFormat.format(it) } }
+        trackYearPlayer.text =
+            track.releaseDate?.let { dateFormat.parse(it)?.let { dateFormat.format(it) } }
         trackGenrePlayer.text = track.primaryGenreName
         trackCountryPlayer.text = track.country
         urlTrackPreview = track.previewUrl.toString()
@@ -137,17 +140,21 @@ class AudioPlayerActivity() : AppCompatActivity() {
     }
 
     private fun preparePlayer() {
-        mediaPlayer.setDataSource(urlTrackPreview)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            playerButton.isEnabled = true
-            playerState = STATE_PREPARED
-        }
-        mediaPlayer.setOnCompletionListener {
-            playerButton.setImageResource(R.drawable.button_play)
-            playerState = STATE_PREPARED
-            handler.removeCallbacksAndMessages(null)
-            currentTrackTime.text = getString(R.string.currentTrackTime)
+        try {
+            mediaPlayer.setDataSource(urlTrackPreview)
+            mediaPlayer.prepareAsync()
+            mediaPlayer.setOnPreparedListener {
+                playerButton.isEnabled = true
+                playerState = STATE_PREPARED
+            }
+            mediaPlayer.setOnCompletionListener {
+                playerButton.setImageResource(R.drawable.button_play)
+                playerState = STATE_PREPARED
+                handler.removeCallbacksAndMessages(null)
+                currentTrackTime.text = getString(R.string.currentTrackTime)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Отсутствует аудио дорожка", Toast.LENGTH_SHORT).show()
         }
     }
 
