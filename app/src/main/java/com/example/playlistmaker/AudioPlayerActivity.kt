@@ -28,6 +28,8 @@ import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import com.google.gson.Gson
 import kotlinx.coroutines.Runnable
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
+import java.util.Date
 import java.util.Locale
 
 
@@ -57,7 +59,8 @@ class AudioPlayerActivity() : AppCompatActivity() {
     private lateinit var binding: ActivityAudioPlayerBinding
     private val handler = Handler(Looper.getMainLooper())
     private var playerState = STATE_DEFAULT
-    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private val timeFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private val dateFormat by lazy { SimpleDateFormat("YYYY", Locale.getDefault()) }
     private var mediaPlayer = MediaPlayer()
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -109,10 +112,10 @@ class AudioPlayerActivity() : AppCompatActivity() {
         trackNamePlayer.text = track.trackName
         currentTrackTime.text = getString(R.string.currentTrackTime)
         trackArtistPlayer.text = track.artistName
-        trackTimePlayer.text = dateFormat.format(track.trackTimeMillis)
+        trackTimePlayer.text = timeFormat.format(track.trackTimeMillis)
         headingTrackAlbum.isVisible = !track.collectionName.isNullOrEmpty()
         trackAlbumPlayer.text = track.collectionName
-        trackYearPlayer.text = track.releaseDate
+        trackYearPlayer.text = track.releaseDate?.let { dateFormat.parse(it)?.let { dateFormat.format(it) } }
         trackGenrePlayer.text = track.primaryGenreName
         trackCountryPlayer.text = track.country
         urlTrackPreview = track.previewUrl.toString()
@@ -189,7 +192,7 @@ class AudioPlayerActivity() : AppCompatActivity() {
         handler.postDelayed(
             object : Runnable {
                 override fun run() {
-                    currentTrackTime.text = dateFormat.format(mediaPlayer.getCurrentPosition())
+                    currentTrackTime.text = timeFormat.format(mediaPlayer.getCurrentPosition())
                     handler.postDelayed(
                         this,
                         TRACK_TIME_DELAY,

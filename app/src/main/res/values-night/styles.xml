@@ -184,6 +184,7 @@
         <item name="android:insetTop">"0dp"</item>
         <item name="android:insetBottom">"0dp"</item>
         <item name="android:padding">0dp</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="clearSearchText">

@@ -16,8 +16,12 @@ data class Track(
     val previewUrl: String?
 
 ) : Parcelable {
+
+
     val artworkUrl512
         get() = artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
+
+
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
