@@ -31,7 +31,8 @@
             android:drawableStart="@drawable/search_icon"
             android:hint="@string/input_hint"
             android:imeOptions="actionDone"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor" />
 
 
         <ImageView
@@ -50,19 +51,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ProgressBar android:id="@+id/progressBar"
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_gravity="center"
             android:indeterminateTint="@color/purpleBlue"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trackList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/padding16"
-            />
+            android:layout_marginTop="@dimen/padding16" />
 
         <ImageView
             android:id="@+id/placeholderImage"

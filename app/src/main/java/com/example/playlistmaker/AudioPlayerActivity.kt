@@ -3,6 +3,7 @@ package com.example.playlistmaker
 import android.app.Activity
 import android.media.MediaPlayer
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,6 +16,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.IntentCompat.getParcelableExtra
+import androidx.core.os.BundleCompat.getParcelable
+import androidx.core.os.BundleCompat.getParcelableArrayList
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -81,7 +85,12 @@ class AudioPlayerActivity() : AppCompatActivity() {
         trackCountryPlayer = binding.trackCountryPlayer
         playerButton = binding.buttonPlay
 
-        val profileName = intent.getParcelableExtra(GET_TRACK_PLAYER, Track::class.java)
+        val profileName: Track? =
+            when {
+                SDK_INT >= 33 -> intent.getParcelableExtra(GET_TRACK_PLAYER, Track::class.java)
+                else -> @Suppress("DEPRECATION") intent.getParcelableExtra(GET_TRACK_PLAYER) as? Track
+            }
+
         if (profileName != null) {
             playerAdapter(profileName)
             preparePlayer()
