@@ -98,7 +98,11 @@ class AudioPlayerActivity() : AppCompatActivity() {
 
         if (profileName != null) {
             playerAdapter(profileName)
+            try {
             preparePlayer()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Отсутствует аудио дорожка", Toast.LENGTH_SHORT).show()
+            }
         }
 
         backButton.setOnClickListener {
@@ -140,7 +144,7 @@ class AudioPlayerActivity() : AppCompatActivity() {
     }
 
     private fun preparePlayer() {
-        try {
+
             mediaPlayer.setDataSource(urlTrackPreview)
             mediaPlayer.prepareAsync()
             mediaPlayer.setOnPreparedListener {
@@ -153,9 +157,7 @@ class AudioPlayerActivity() : AppCompatActivity() {
                 handler.removeCallbacksAndMessages(null)
                 currentTrackTime.text = getString(R.string.currentTrackTime)
             }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Отсутствует аудио дорожка", Toast.LENGTH_SHORT).show()
-        }
+
     }
 
     private fun startPlayer() {
