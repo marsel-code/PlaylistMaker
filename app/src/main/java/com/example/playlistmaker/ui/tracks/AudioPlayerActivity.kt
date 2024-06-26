@@ -1,6 +1,5 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.tracks
 
-import android.app.Activity
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Build.VERSION.SDK_INT
@@ -8,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
-import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,21 +15,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.IntentCompat.getParcelableExtra
-import androidx.core.os.BundleCompat.getParcelable
-import androidx.core.os.BundleCompat.getParcelableArrayList
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
-import com.google.gson.Gson
+import com.example.playlistmaker.domain.models.Track
 import kotlinx.coroutines.Runnable
-import java.lang.RuntimeException
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
 
 
