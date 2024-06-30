@@ -25,7 +25,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.SearchHistory
+import com.example.playlistmaker.data.dto.SearchHistory
 import com.example.playlistmaker.data.dto.iTunesTrackResponse
 import com.example.playlistmaker.data.network.iTunesApi
 import com.example.playlistmaker.domain.models.Track
