@@ -1,15 +1,22 @@
-package com.example.playlistmaker.data.dto
+package com.example.playlistmaker.data
 
 import android.content.SharedPreferences
+import com.example.playlistmaker.domain.api.SearchHistoryRepository
 import com.example.playlistmaker.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistory(private val sharedPrefsSearch: SharedPreferences) {
 
-    var searchHistory: MutableList<Track> = mutableListOf()
+class SearchHistoryImpl(private val sharedPrefsSearch: SharedPreferences) :
+    SearchHistoryRepository {
 
-    fun searchListFromGson(): MutableList<Track> {
+    private var searchHistory: MutableList<Track> = mutableListOf()
+
+    override fun searchHistoryTrack(): MutableList<Track> {
+        return searchHistory
+    }
+
+    override fun searchListFromGson(): MutableList<Track> {
         val gsonFrom = sharedPrefsSearch.getString(SEARCH_SHARED_PREFERENCES_KEY, null)
         val type = object : TypeToken<MutableList<Track>>() {}.type
         if (gsonFrom != null) {
@@ -19,14 +26,15 @@ class SearchHistory(private val sharedPrefsSearch: SharedPreferences) {
         return mutableListOf()
     }
 
-    fun saveSearchList() {
+    override fun saveSearchList() {
         val trackGson = Gson().toJson(searchHistory)
         sharedPrefsSearch.edit()
             .putString(SEARCH_SHARED_PREFERENCES_KEY, trackGson)
             .apply()
     }
 
-    fun addTrackHistory(track: Track) {
+
+    override fun addTrackHistory(track: Track) {
         val interator = searchHistory.iterator()
         while (interator.hasNext()) {
             if (interator.next().trackId == track.trackId) interator.remove()
@@ -35,10 +43,11 @@ class SearchHistory(private val sharedPrefsSearch: SharedPreferences) {
         searchHistory.add(0, track)
     }
 
-    fun searchHistoryClear() {
+    override fun searchHistoryClear() {
         searchHistory.clear()
         saveSearchList()
     }
+
 
     companion object {
         const val SEARCH_SHARED_PREFERENCES_KEY = "key_for_search"

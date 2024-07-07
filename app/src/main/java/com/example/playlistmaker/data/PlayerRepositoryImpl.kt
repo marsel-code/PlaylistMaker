@@ -9,16 +9,7 @@ import java.util.Locale
 
 class PlayerRepositoryImpl() : PlayerRepository {
 
-//    companion object {
-//        private const val STATE_DEFAULT = 0
-//        private const val STATE_PREPARED = 1
-//        private const val STATE_PLAYING = 2
-//        private const val STATE_PAUSED = 3
-//        private const val TRACK_TIME_DELAY = 300L
-//    }
-
     private var playerState = PlayerState.STATE_DEFAULT
-
     private var mediaPlayer = MediaPlayer()
 
     private val timeFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
@@ -50,12 +41,15 @@ class PlayerRepositoryImpl() : PlayerRepository {
                 pausePlayer()
 
             }
+
             PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
                 startPlayer()
 
             }
 
-            PlayerState.STATE_DEFAULT -> TODO()
+            PlayerState.STATE_DEFAULT -> {
+                playerState = PlayerState.STATE_DEFAULT
+            }
         }
     }
 
@@ -63,28 +57,19 @@ class PlayerRepositoryImpl() : PlayerRepository {
         return playerState
     }
 
-    override fun playerGetCurrentPosition():String{
+    override fun playerGetCurrentPosition(): String {
         return timeFormat.format(mediaPlayer.getCurrentPosition())
     }
 
 
-    override fun playerOnPause(){
+    override fun playerOnPause() {
         pausePlayer()
     }
 
 
-    override fun playerOnDestroy(){
+    override fun playerOnDestroy() {
         mediaPlayer.release()
     }
-
-
-
-
-
-
-
-
-
 
 
 }

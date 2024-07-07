@@ -24,18 +24,10 @@ import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.databinding.ActivityAudioPlayerBinding
 import com.example.playlistmaker.domain.models.PlayerState
 import com.example.playlistmaker.domain.models.Track
-import java.text.SimpleDateFormat
-import java.util.Locale
-
 
 class AudioPlayerActivity() : AppCompatActivity() {
     companion object {
         private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
-
-        //        private const val STATE_DEFAULT = 0
-//        private const val STATE_PREPARED = 1
-//        private const val STATE_PLAYING = 2
-//        private const val STATE_PAUSED = 3
         private const val TRACK_TIME_DELAY = 300L
     }
 
@@ -54,14 +46,7 @@ class AudioPlayerActivity() : AppCompatActivity() {
     private lateinit var urlTrackPreview: String
     private lateinit var binding: ActivityAudioPlayerBinding
     private val handler = Handler(Looper.getMainLooper())
-
-    //    private var playerState = STATE_DEFAULT
-    private val timeFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-    private val dateFormat by lazy { SimpleDateFormat("YYYY", Locale.getDefault()) }
-//    private var mediaPlayer = MediaPlayer()
-
     private var mediaPlayer = Creator.providePlayerInteractor()
-
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,9 +80,8 @@ class AudioPlayerActivity() : AppCompatActivity() {
             }
 
         if (profileName != null) {
-            playerAdapter(profileName)
             try {
-                profileName.previewUrl?.let { mediaPlayer.preparePlayer(it) }
+                playerAdapter(profileName)
             } catch (e: Exception) {
                 Toast.makeText(this, "Отсутствует аудио дорожка", Toast.LENGTH_SHORT).show()
             }
@@ -123,11 +107,10 @@ class AudioPlayerActivity() : AppCompatActivity() {
         trackNamePlayer.text = track.trackName
         currentTrackTime.text = getString(R.string.currentTrackTime)
         trackArtistPlayer.text = track.artistName
-        trackTimePlayer.text = timeFormat.format(track.trackTimeMillis)
+        trackTimePlayer.text = track.trackTimeMillis
         headingTrackAlbum.isVisible = !track.collectionName.isNullOrEmpty()
         trackAlbumPlayer.text = track.collectionName
-        trackYearPlayer.text =
-            track.releaseDate?.let { dateFormat.parse(it)?.let { dateFormat.format(it) } }
+        trackYearPlayer.text = track.releaseDate
         trackGenrePlayer.text = track.primaryGenreName
         trackCountryPlayer.text = track.country
         urlTrackPreview = track.previewUrl.toString()
@@ -146,53 +129,14 @@ class AudioPlayerActivity() : AppCompatActivity() {
                 )
             )
             .into(imageTrackPlayer)
+        track.previewUrl?.let { mediaPlayer.preparePlayer(it) }
+        playerButton.isEnabled = true
     }
-
-
-//    private fun preparePlayer() {
-////            mediaPlayer.setDataSource(urlTrackPreview)
-//            mediaPlayer.prepareAsync()
-//            mediaPlayer.setOnPreparedListener {
-//                playerButton.isEnabled = true
-//                playerState = STATE_PREPARED
-//            }
-//            mediaPlayer.setOnCompletionListener {
-//                playerButton.setImageResource(R.drawable.button_play)
-//                playerState = STATE_PREPARED
-//                handler.removeCallbacksAndMessages(null)
-//                currentTrackTime.text = getString(R.string.currentTrackTime)
-//            }
-////    }
-
-//    private fun startPlayer() {
-//        mediaPlayer.start()
-//        playerButton.setImageResource(R.drawable.pause_button)
-//        playerState = STATE_PLAYING
-//        trackTimeUpdate()
-//    }
-
-//    private fun pausePlayer() {
-//        mediaPlayer.pause()
-//        playerButton.setImageResource(R.drawable.button_play)
-//        playerState = STATE_PAUSED
-//        handler.removeCallbacksAndMessages(null)
-//    }
-
-//    private fun playbackControl() {
-//        when (playerState) {
-//            STATE_PLAYING -> {
-//                pausePlayer()
-//            }
-//
-//            STATE_PREPARED, STATE_PAUSED -> {
-//                startPlayer()
-//            }
-//        }
-//    }
 
     override fun onPause() {
         super.onPause()
         mediaPlayer.playerOnPause()
+        playerButton.setImageResource(R.drawable.button_play)
     }
 
     override fun onDestroy() {

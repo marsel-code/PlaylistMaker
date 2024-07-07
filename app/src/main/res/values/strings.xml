@@ -31,6 +31,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="nothing_found">Ничего не нашлось</string>
     <string name="something_went_wrong">Проблемы со связью "&#xA;" "&#xA;" Загрузка не удалась. Проверьте "&#xA;" подключение к интернету </string>
+    <string name="no_internet_connection">Нет подключение к интернету </string>
     <string name="Update">Обновить</string>
     <string name="Clear_history">Очистить историю</string>
     <string name="youLooking">Вы искали</string>
