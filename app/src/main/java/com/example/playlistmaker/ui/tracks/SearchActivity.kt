@@ -1,13 +1,11 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.tracks
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
-import android.text.Layout
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -25,19 +23,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.playlistmaker.R
+import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.domain.api.TracksInteractor
+import com.example.playlistmaker.domain.models.Track
 
 class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val KEY_TEXT = "KEY_TEXT"
         private const val TAG = "SPRINT_9"
-        const val SEARCH_SHARED_PREFERENCES = "search_shared_preferences"
         private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
@@ -46,14 +41,7 @@ class SearchActivity : AppCompatActivity() {
     private val searchRunnable = Runnable { search() }
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private val iTunesBaseUrl = "https://itunes.apple.com"
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val iTunesService = retrofit.create(iTunesApi::class.java)
-    private val tracksList = mutableListOf<Track>()
+    private val tracksList = ArrayList<Track>()
     private val adapter = TrackAdapter {
         if (clickDebounce()) {
             selectTrack(it)
@@ -71,16 +59,16 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var updateButton: Button
     private lateinit var clearSearchListButton: Button
     private lateinit var progressBar: ProgressBar
-    private lateinit var bodyResults: MutableList<Track>
-    private lateinit var searchHistoryClass: SearchHistory
-    private lateinit var sharedPrefsSearch: SharedPreferences
     private lateinit var searchLayout: LinearLayout
+
+    private var trackInteractor = Creator.provideTracksInteractor()
+    private var searchHistory = Creator.provideSearchHistoryInteractor()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_search)
-        sharedPrefsSearch = getSharedPreferences(SEARCH_SHARED_PREFERENCES, MODE_PRIVATE)
-        searchHistoryClass = SearchHistory(sharedPrefsSearch)
+
         backButton = findViewById(R.id.backMain)
         inputEditText = findViewById(R.id.inputEditText)
         clearButton = findViewById(R.id.clearIcon)
@@ -113,7 +101,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         clearSearchListButton.setOnClickListener {
-            searchHistoryClass.searchHistoryClear()
+            searchHistory.searchHistoryClear()
             searchLayout.isVisible = false
         }
 
@@ -126,7 +114,7 @@ class SearchActivity : AppCompatActivity() {
                 editTextValue = s.toString()
                 if (inputEditText.hasFocus() && s?.isEmpty() == true) {
                     recyclerTrack.isVisible = false
-                    adapterData(searchHistoryClass.searchListFromGson())
+                    adapterData(searchHistory.searchListFromGson())
                     searchLayout.visibility = visibilitySearchLayout(true)
                     visibilityError(false)
                 } else {
@@ -153,7 +141,7 @@ class SearchActivity : AppCompatActivity() {
             if (hasFocus && inputEditText.text.isEmpty()) {
                 visibilityError(false)
                 recyclerTrack.isVisible = false
-                adapterData(searchHistoryClass.searchListFromGson())
+                adapterData(searchHistory.searchListFromGson())
                 searchLayout.visibility = visibilitySearchLayout(true)
             } else {
                 searchLayout.visibility = visibilitySearchLayout(false)
@@ -190,51 +178,38 @@ class SearchActivity : AppCompatActivity() {
             visibilityError(false)
             recyclerTrack.isVisible = false
             progressBar.isVisible = true
-            iTunesService.search(inputEditText.text.toString()).enqueue(object :
-                Callback<iTunesTrackResponse> {
-                override fun onResponse(
-                    call: Call<iTunesTrackResponse>,
-                    response: Response<iTunesTrackResponse>,
-                ) {
-                    progressBar.isVisible = false
-                    if (response.isSuccessful) {
-                        bodyResults = response.body()?.results!!
-                        tracksList.clear()
-                        if (bodyResults.isNotEmpty()) {
-                            val inputMethodManager =
-                                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-                            inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
-                            tracksList.addAll(bodyResults)
-                            recyclerTrack.adapter = adapter
-                            adapter.tracksAdapter = tracksList
-                            adapter.notifyDataSetChanged()
-                            recyclerTrack.isVisible = true
+            val searchText = inputEditText.text.toString()
+            trackInteractor.searchTracks(
+                searchText,
+                object : TracksInteractor.TracksConsumer {
+                    override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
+                        handler.post {
+                            progressBar.isVisible = false
+                            if (foundTracks != null) {
+                                tracksList.clear()
+                                tracksList.addAll(foundTracks)
+                                recyclerTrack.adapter = adapter
+                                adapter.tracksAdapter = tracksList
+                                adapter.notifyDataSetChanged()
+                                recyclerTrack.isVisible = true
+                            }
+                            if (errorMessage != null) {
+                                updateButton.isVisible = true
+                                showMessage(
+                                    getString(R.string.something_went_wrong),
+                                    errorMessage,
+                                    R.drawable.error_image
+                                )
+                            } else if (tracksList.isEmpty()) {
+                                showMessage(
+                                    getString(R.string.nothing_found),
+                                    "",
+                                    R.drawable.no_mode
+                                )
+                            }
                         }
-                        if (bodyResults.isEmpty()) {
-                            showMessage(getString(R.string.nothing_found), "", R.drawable.no_mode)
-                        } else {
-                            showMessage("", "", R.drawable.error_image)
-                        }
-                    } else {
-                        updateButton.isVisible = true
-                        showMessage(
-                            getString(R.string.something_went_wrong),
-                            response.code().toString(),
-                            R.drawable.error_image
-                        )
                     }
-                }
-
-                override fun onFailure(call: Call<iTunesTrackResponse>, t: Throwable) {
-                    updateButton.isVisible = true
-                    progressBar.visibility = View.GONE
-                    showMessage(
-                        getString(R.string.something_went_wrong),
-                        t.message.toString(),
-                        R.drawable.error_image
-                    )
-                }
-            })
+                })
         }
     }
 
@@ -256,8 +231,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun selectTrack(track: Track) {
-        searchHistoryClass.addTrackHistory(track)
-        searchHistoryClass.saveSearchList()
+        searchHistory.addTrackHistory(track)
+        searchHistory.saveSearchList()
         val trackPlayerIntent = Intent(this@SearchActivity, AudioPlayerActivity::class.java)
         trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
         inputEditText.clearFocus()
@@ -265,14 +240,14 @@ class SearchActivity : AppCompatActivity() {
         startActivity(trackPlayerIntent)
     }
 
-    fun adapterData(trackListAdapter: MutableList<Track>) {
+    fun adapterData(trackListAdapter: List<Track>) {
         recyclerSearchTrack.adapter = adapter
         adapter.tracksAdapter = trackListAdapter
         adapter.notifyDataSetChanged()
     }
 
     fun visibilitySearchLayout(s: Boolean): Int {
-        return if (s && searchHistoryClass.searchHistory.isNotEmpty()) View.VISIBLE
+        return if (s && searchHistory.searchHistoryTrack().isNotEmpty()) View.VISIBLE
         else View.GONE
     }
 
@@ -302,8 +277,3 @@ class SearchActivity : AppCompatActivity() {
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 }
-
-
-
-
-
