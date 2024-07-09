@@ -1,3 +1,3 @@
 package com.example.playlistmaker.data.dto
 
-class iTunesTrackResponse(val results: MutableList<TrackDto>) : Response()
+class ITunesTrackResponse(val results: MutableList<TrackDto>) : Response()

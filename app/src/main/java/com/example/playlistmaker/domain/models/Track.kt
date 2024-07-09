@@ -2,7 +2,9 @@ package com.example.playlistmaker.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Track(
     val trackId: Long,
     val trackName: String?,
@@ -22,44 +24,5 @@ data class Track(
         get() = artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg")
 
 
-    constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString().toString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString()
-    ) {
-    }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(trackId)
-        parcel.writeString(trackName)
-        parcel.writeString(artistName)
-        parcel.writeString(trackTimeMillis)
-        parcel.writeString(artworkUrl100)
-        parcel.writeString(collectionName)
-        parcel.writeString(releaseDate)
-        parcel.writeString(primaryGenreName)
-        parcel.writeString(country)
-        parcel.writeString(previewUrl)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Track> {
-        override fun createFromParcel(parcel: Parcel): Track {
-            return Track(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Track?> {
-            return arrayOfNulls(size)
-        }
-    }
 }

@@ -5,12 +5,13 @@ import com.example.playlistmaker.domain.api.SearchHistoryRepository
 import com.example.playlistmaker.domain.models.Track
 
 class SearchHistoryInteractorImpl(private val repository: SearchHistoryRepository) :
+
     SearchHistoryInteractor {
-    override fun searchHistoryTrack(): MutableList<Track> {
+    override fun searchHistoryTrack(): List<Track> {
         return repository.searchHistoryTrack()
     }
 
-    override fun searchListFromGson(): MutableList<Track> {
+    override fun searchListFromGson(): List<Track> {
         return repository.searchListFromGson()
     }
 

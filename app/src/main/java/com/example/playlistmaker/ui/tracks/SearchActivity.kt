@@ -240,7 +240,7 @@ class SearchActivity : AppCompatActivity() {
         startActivity(trackPlayerIntent)
     }
 
-    fun adapterData(trackListAdapter: MutableList<Track>) {
+    fun adapterData(trackListAdapter: List<Track>) {
         recyclerSearchTrack.adapter = adapter
         adapter.tracksAdapter = trackListAdapter
         adapter.notifyDataSetChanged()

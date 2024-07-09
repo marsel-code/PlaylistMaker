@@ -1,7 +1,7 @@
 package com.example.playlistmaker.data
 
 import com.example.playlistmaker.data.dto.TracksSearchRequest
-import com.example.playlistmaker.data.dto.iTunesTrackResponse
+import com.example.playlistmaker.data.dto.ITunesTrackResponse
 import com.example.playlistmaker.domain.api.TracksRepository
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.util.Resource
@@ -21,7 +21,7 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
             }
 
             200 -> {
-                Resource.Success((response as iTunesTrackResponse).results.map {
+                Resource.Success((response as ITunesTrackResponse).results.map {
                     Track(
                         it.trackId,
                         it.trackName,

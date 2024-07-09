@@ -12,11 +12,11 @@ class SearchHistoryImpl(private val sharedPrefsSearch: SharedPreferences) :
 
     private var searchHistory: MutableList<Track> = mutableListOf()
 
-    override fun searchHistoryTrack(): MutableList<Track> {
+    override fun searchHistoryTrack(): List<Track> {
         return searchHistory
     }
 
-    override fun searchListFromGson(): MutableList<Track> {
+    override fun searchListFromGson(): List<Track> {
         val gsonFrom = sharedPrefsSearch.getString(SEARCH_SHARED_PREFERENCES_KEY, null)
         val type = object : TypeToken<MutableList<Track>>() {}.type
         if (gsonFrom != null) {
