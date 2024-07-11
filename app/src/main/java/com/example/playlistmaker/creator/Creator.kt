@@ -3,19 +3,19 @@ package com.example.playlistmaker.creator
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.playlistmaker.data.PlayerRepositoryImpl
-import com.example.playlistmaker.data.SearchHistoryImpl
-import com.example.playlistmaker.data.TracksRepositoryImpl
-import com.example.playlistmaker.data.network.RetrofitNetworkClient
-import com.example.playlistmaker.domain.api.PlayerInteractor
-import com.example.playlistmaker.domain.api.PlayerRepository
-import com.example.playlistmaker.domain.api.SearchHistoryInteractor
-import com.example.playlistmaker.domain.api.SearchHistoryRepository
-import com.example.playlistmaker.domain.api.TracksInteractor
-import com.example.playlistmaker.domain.api.TracksRepository
-import com.example.playlistmaker.domain.impl.PlayerInteractorImpl
-import com.example.playlistmaker.domain.impl.SearchHistoryInteractorImpl
-import com.example.playlistmaker.domain.impl.TracksInteractorImpl
+import com.example.playlistmaker.player.data.impl.PlayerRepositoryImpl
+import com.example.playlistmaker.search.data.impl.SearchHistoryImpl
+import com.example.playlistmaker.search.data.impl.TracksRepositoryImpl
+import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
+import com.example.playlistmaker.player.domain.PlayerInteractor
+import com.example.playlistmaker.player.domain.PlayerRepository
+import com.example.playlistmaker.search.domain.SearchHistoryInteractor
+import com.example.playlistmaker.search.domain.SearchHistoryRepository
+import com.example.playlistmaker.search.domain.TracksInteractor
+import com.example.playlistmaker.search.domain.TracksRepository
+import com.example.playlistmaker.player.domain.PlayerInteractorImpl
+import com.example.playlistmaker.search.domain.impl.SearchHistoryInteractorImpl
+import com.example.playlistmaker.search.domain.impl.TracksInteractorImpl
 
 object Creator {
 
