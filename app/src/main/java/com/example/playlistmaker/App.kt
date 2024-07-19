@@ -8,8 +8,6 @@ const val APP_SHARED_PREFERENCES = "app_shared_preferences"
 const val THEME_SHARED_PREFERENCES_KEY = "key_for_dark_theme"
 
 class App : Application() {
-
-
     override fun onCreate() {
         super.onCreate()
         val sharedPrefs = getSharedPreferences(APP_SHARED_PREFERENCES, MODE_PRIVATE)

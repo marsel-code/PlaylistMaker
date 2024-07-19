@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.ui
+package com.example.playlistmaker.search.presentation.ui
 
 import android.util.TypedValue
 import android.widget.ImageView

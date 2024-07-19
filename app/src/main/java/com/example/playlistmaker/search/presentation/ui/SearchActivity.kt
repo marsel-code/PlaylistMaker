@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.ui
+package com.example.playlistmaker.search.presentation.ui
 
 import android.content.Context
 import android.content.Intent
@@ -26,9 +26,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.player.presentation.view_model.PlayerActivity
 import com.example.playlistmaker.search.domain.TracksInteractor
 import com.example.playlistmaker.search.domain.models.Track
-import com.example.playlistmaker.player.ui.AudioPlayerActivity
+
 
 class SearchActivity : AppCompatActivity() {
 
@@ -240,7 +241,7 @@ class SearchActivity : AppCompatActivity() {
     private fun selectTrack(track: Track) {
         searchHistory.addTrackHistory(track)
         searchHistory.saveSearchList()
-        val trackPlayerIntent = Intent(this@SearchActivity, AudioPlayerActivity::class.java)
+        val trackPlayerIntent = Intent(this@SearchActivity, PlayerActivity::class.java) // поменял класс
         trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
         inputEditText.clearFocus()
         searchLayout.isVisible = false

@@ -1,4 +1,8 @@
-package com.example.playlistmaker.player.domain
+package com.example.playlistmaker.player.domain.impl
+
+import com.example.playlistmaker.player.domain.PlayerInteractor
+import com.example.playlistmaker.player.domain.PlayerRepository
+import com.example.playlistmaker.player.presentation.state.PlayerState
 
 class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : PlayerInteractor {
 

@@ -2,7 +2,7 @@ package com.example.playlistmaker.player.data.impl
 
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.PlayerRepository
-import com.example.playlistmaker.player.domain.PlayerState
+import com.example.playlistmaker.player.presentation.state.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
