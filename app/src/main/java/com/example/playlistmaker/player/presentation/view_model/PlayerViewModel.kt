@@ -20,22 +20,21 @@ class PlayerViewModel(
     private val track: Track,
     private val trackPlayer: PlayerInteractor
 ) : ViewModel() {
+
     private val TRACK_TIME_DELAY = 300L
-    private var trackTimeCurrent: String = ""
+    private var trackTimeCurrent: String = "00:00"
     private val handler = Handler(Looper.getMainLooper())
     private var screenStateLiveData =
-        MutableLiveData<PlayerScreenState>()
+        MutableLiveData<PlayerScreenState.Content>()
 
     private val playStatusLiveData = MutableLiveData<PlayerState>()
 
     init {
         track.previewUrl?.let { preparePlayer(it) }
         screenStateLiveData.value = PlayerScreenState.Content(track, trackTimeCurrent)
-        screenStateLiveData.postValue(PlayerScreenState.Content(track, trackTimeCurrent))
-
     }
 
-    fun getScreenStateLiveData(): LiveData<PlayerScreenState> = screenStateLiveData
+    fun getScreenStateLiveData(): LiveData<PlayerScreenState.Content> = screenStateLiveData
     fun getPlayStatusLiveData(): LiveData<PlayerState> = playStatusLiveData
 
     fun play() {
@@ -67,7 +66,12 @@ class PlayerViewModel(
             object : Runnable {
                 override fun run() {
                     trackTimeCurrent = trackPlayer.playerGetCurrentPosition()
-                    screenStateLiveData.postValue(PlayerScreenState.Content(track, trackTimeCurrent))
+                    screenStateLiveData.postValue(
+                        PlayerScreenState.Content(
+                            track,
+                            trackTimeCurrent
+                        )
+                    )
                     handler.postDelayed(
                         this,
                         TRACK_TIME_DELAY,
@@ -77,7 +81,6 @@ class PlayerViewModel(
             TRACK_TIME_DELAY
         )
     }
-
 
     companion object {
         fun getViewModelFactory(track: Track?): ViewModelProvider.Factory = viewModelFactory {
@@ -91,7 +94,5 @@ class PlayerViewModel(
                 }!!
             }
         }
-
-
     }
 }

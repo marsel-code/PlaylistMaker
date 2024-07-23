@@ -1,4 +1,4 @@
-package com.example.playlistmaker.player.presentation.view_model
+package com.example.playlistmaker.player.ui
 
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
@@ -7,22 +7,20 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
-import com.example.playlistmaker.player.domain.PlayerInteractor
 import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.player.presentation.state.PlayerState
+import com.example.playlistmaker.player.presentation.view_model.PlayerViewModel
 import com.example.playlistmaker.search.domain.models.Track
 
 class PlayerActivity : AppCompatActivity() {
@@ -77,6 +75,10 @@ class PlayerActivity : AppCompatActivity() {
             finish()
         }
 
+        playerButton.setOnClickListener {
+            viewModel.play()
+        }
+
         val track: Track? =
             when {
                 SDK_INT >= 33 -> intent.getParcelableExtra(GET_TRACK_PLAYER, Track::class.java)
@@ -91,33 +93,7 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.getScreenStateLiveData().observe(this) { screenState ->
             when (screenState) {
                 is PlayerScreenState.Content -> {
-                    trackNamePlayer.text = screenState.trackModel.trackName
-                    currentTrackTime.text = getString(R.string.currentTrackTime)
-                    trackArtistPlayer.text = screenState.trackModel.artistName
-                    trackTimePlayer.text = screenState.trackModel.trackTimeMillis
-                    headingTrackAlbum.isVisible =
-                        !screenState.trackModel.collectionName.isNullOrEmpty()
-                    trackAlbumPlayer.text = screenState.trackModel.collectionName
-                    trackYearPlayer.text = screenState.trackModel.releaseDate
-                    trackGenrePlayer.text = screenState.trackModel.primaryGenreName
-                    trackCountryPlayer.text = screenState.trackModel.country
-                    urlTrackPreview = screenState.trackModel.previewUrl.toString()
-                    currentTrackTime.text = screenState.trackTime
-                    Glide.with(applicationContext)
-                        .load(screenState.trackModel.artworkUrl512)
-                        .placeholder(R.drawable.no_reply)
-                        .centerCrop()
-                        .transform(
-                            RoundedCorners(
-                                TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP,
-                                    8F,
-                                    imageTrackPlayer.resources.displayMetrics
-                                ).toInt()
-                            )
-                        )
-                        .into(imageTrackPlayer)
-                    playerButton.isEnabled = true
+                    setScreenStateTrack(screenState)
                 }
             }
         }
@@ -130,10 +106,36 @@ class PlayerActivity : AppCompatActivity() {
                 PlayerState.STATE_PAUSED -> binding.buttonPlay.setImageResource(R.drawable.button_play)
             }
         }
+    }
 
-        playerButton.setOnClickListener {
-            viewModel.play()
-        }
+    fun setScreenStateTrack(screenState: PlayerScreenState.Content) {
+        trackNamePlayer.text = screenState.trackModel.trackName
+        currentTrackTime.text = getString(R.string.currentTrackTime)
+        trackArtistPlayer.text = screenState.trackModel.artistName
+        trackTimePlayer.text = screenState.trackModel.trackTimeMillis
+        headingTrackAlbum.isVisible =
+            !screenState.trackModel.collectionName.isNullOrEmpty()
+        trackAlbumPlayer.text = screenState.trackModel.collectionName
+        trackYearPlayer.text = screenState.trackModel.releaseDate
+        trackGenrePlayer.text = screenState.trackModel.primaryGenreName
+        trackCountryPlayer.text = screenState.trackModel.country
+        urlTrackPreview = screenState.trackModel.previewUrl.toString()
+        currentTrackTime.text = screenState.trackTime
+        Glide.with(applicationContext)
+            .load(screenState.trackModel.artworkUrl512)
+            .placeholder(R.drawable.no_reply)
+            .centerCrop()
+            .transform(
+                RoundedCorners(
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        8F,
+                        imageTrackPlayer.resources.displayMetrics
+                    ).toInt()
+                )
+            )
+            .into(imageTrackPlayer)
+        playerButton.isEnabled = true
     }
 
     override fun onPause() {
