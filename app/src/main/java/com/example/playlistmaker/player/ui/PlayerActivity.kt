@@ -16,12 +16,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-
 import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.player.presentation.state.PlayerState
 import com.example.playlistmaker.player.presentation.view_model.PlayerViewModel
-import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.search.presentation.model.SearchTrack
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -79,15 +78,15 @@ class PlayerActivity : AppCompatActivity() {
             viewModel.play()
         }
 
-        val track: Track? =
+        val track: SearchTrack? =
             when {
-                SDK_INT >= 33 -> intent.getParcelableExtra(GET_TRACK_PLAYER, Track::class.java)
-                else -> @Suppress("DEPRECATION") intent.getParcelableExtra(GET_TRACK_PLAYER) as? Track
+                SDK_INT >= 33 -> intent.getParcelableExtra(GET_TRACK_PLAYER, SearchTrack::class.java)
+                else -> @Suppress("DEPRECATION") intent.getParcelableExtra(GET_TRACK_PLAYER) as? SearchTrack
             }
 
         viewModel = ViewModelProvider(
             this,
-            PlayerViewModel.getViewModelFactory(track)
+            PlayerViewModel.getViewModelFactory(track?.let { it })
         )[PlayerViewModel::class.java]
 
         viewModel.getScreenStateLiveData().observe(this) { screenState ->

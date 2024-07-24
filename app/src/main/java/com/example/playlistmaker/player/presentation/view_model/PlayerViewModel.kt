@@ -8,24 +8,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.room.util.copy
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.PlayerInteractor
 import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.player.presentation.state.PlayerState
-import com.example.playlistmaker.search.domain.TracksInteractor
-import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.search.presentation.model.SearchTrack
 
 class PlayerViewModel(
-    private val track: Track,
+    private val track: SearchTrack,
     private val trackPlayer: PlayerInteractor
 ) : ViewModel() {
 
-    private val TRACK_TIME_DELAY = 300L
     private var trackTimeCurrent: String = "00:00"
     private val handler = Handler(Looper.getMainLooper())
+
     private var screenStateLiveData =
-        MutableLiveData<PlayerScreenState.Content>()
+        MutableLiveData<PlayerScreenState>()
 
     private val playStatusLiveData = MutableLiveData<PlayerState>()
 
@@ -34,7 +32,7 @@ class PlayerViewModel(
         screenStateLiveData.value = PlayerScreenState.Content(track, trackTimeCurrent)
     }
 
-    fun getScreenStateLiveData(): LiveData<PlayerScreenState.Content> = screenStateLiveData
+    fun getScreenStateLiveData(): LiveData<PlayerScreenState> = screenStateLiveData
     fun getPlayStatusLiveData(): LiveData<PlayerState> = playStatusLiveData
 
     fun play() {
@@ -83,7 +81,8 @@ class PlayerViewModel(
     }
 
     companion object {
-        fun getViewModelFactory(track: Track?): ViewModelProvider.Factory = viewModelFactory {
+        const val TRACK_TIME_DELAY = 300L
+        fun getViewModelFactory(track: SearchTrack?): ViewModelProvider.Factory = viewModelFactory {
             val trackPlayer = Creator.providePlayerInteractor()
             initializer {
                 track?.let {

@@ -8,7 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.TrackItemBinding
-import com.example.playlistmaker.search.domain.models.Track
+import com.example.playlistmaker.search.presentation.model.SearchTrack
+
 
 class TrackViewHolder(binding: TrackItemBinding) :
     RecyclerView.ViewHolder(binding.root ) {
@@ -18,7 +19,7 @@ class TrackViewHolder(binding: TrackItemBinding) :
     private var trackTimeView: TextView = binding.trackTime
     private var artworkUrl100View: ImageView = binding.trackImage
 
-    fun bind(model: Track) {
+    fun bind(model: SearchTrack) {
         trackNameView.text = model.trackName
         artistNameView.text = model.artistName
         trackTimeView.text = model.trackTimeMillis

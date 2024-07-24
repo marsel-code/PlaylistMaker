@@ -20,7 +20,7 @@
             android:name=".player.ui.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".settings.presentation.ui.SettingsActivity"
+            android:name=".settings.ui.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity

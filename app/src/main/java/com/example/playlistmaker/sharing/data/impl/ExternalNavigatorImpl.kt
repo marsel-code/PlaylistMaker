@@ -13,7 +13,6 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
         val shareIntent = Intent(Intent.ACTION_VIEW)
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         shareIntent.data = Uri.parse(context.getString(R.string.agreementUser))
-//        shareIntent.data = Uri.parse(shareAppLink)
         context.startActivity(shareIntent)
     }
 
@@ -22,7 +21,6 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         shareIntent.setType("text/playn")
         shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.shareButton))
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, termsLink)
         context.startActivity(shareIntent)
     }
 
@@ -34,11 +32,5 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.supportSubject))
         shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.supportMessage))
         context.startActivity(shareIntent)
-
-//        shareIntent.data = Uri.parse(supportEmailData.uriString)
-//        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(supportEmailData.supportMail))
-//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, supportEmailData.supportSubject)
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, supportEmailData.supportMessage)
-//        context.startActivity(shareIntent)
     }
 }

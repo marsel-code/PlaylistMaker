@@ -26,5 +26,4 @@ class SearchHistoryInteractorImpl(private val repository: SearchHistoryRepositor
     override fun searchHistoryClear() {
         repository.searchHistoryClear()
     }
-
 }
