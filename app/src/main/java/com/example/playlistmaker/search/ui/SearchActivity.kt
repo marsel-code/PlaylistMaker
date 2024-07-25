@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -48,8 +49,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearSearchListButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var searchLayout: LinearLayout
-
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModels<SearchViewModel> { SearchViewModel.getViewModelFactory()}
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val adapter = TrackAdapter {
@@ -60,11 +60,6 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
 
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -1,6 +1,5 @@
 package com.example.playlistmaker.player.ui
 
-import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.ImageButton
@@ -9,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -78,11 +78,7 @@ class PlayerActivity : AppCompatActivity() {
             viewModel.play()
         }
 
-        val track: SearchTrack? =
-            when {
-                SDK_INT >= 33 -> intent.getParcelableExtra(GET_TRACK_PLAYER, SearchTrack::class.java)
-                else -> @Suppress("DEPRECATION") intent.getParcelableExtra(GET_TRACK_PLAYER) as? SearchTrack
-            }
+        val track: SearchTrack? = IntentCompat.getParcelableExtra(intent, GET_TRACK_PLAYER, SearchTrack::class.java)
 
         viewModel = ViewModelProvider(
             this,
