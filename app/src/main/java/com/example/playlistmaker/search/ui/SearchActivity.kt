@@ -28,6 +28,7 @@ import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.presentation.state.SearchState
 import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
@@ -49,7 +50,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearSearchListButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var searchLayout: LinearLayout
-    private val viewModel by viewModels<SearchViewModel> { SearchViewModel.getViewModelFactory()}
+    private val viewModel by viewModel<SearchViewModel>()
+
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private val adapter = TrackAdapter {
