@@ -68,8 +68,8 @@ class PlayerRepositoryImpl() : PlayerRepository {
 
 
     override fun playerOnDestroy() {
+        playerState = PlayerState.STATE_DEFAULT
         mediaPlayer.release()
+//        mediaPlayer.reset()
     }
-
-
 }

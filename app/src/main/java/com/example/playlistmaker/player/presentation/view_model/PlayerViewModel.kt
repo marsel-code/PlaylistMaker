@@ -2,6 +2,7 @@ package com.example.playlistmaker.player.presentation.view_model
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,14 +23,14 @@ class PlayerViewModel(
     private var trackTimeCurrent: String = "00:00"
     private val handler = Handler(Looper.getMainLooper())
 
-    private var screenStateLiveData =
+    private val screenStateLiveData =
         MutableLiveData<PlayerScreenState>()
 
     private val playStatusLiveData = MutableLiveData<PlayerState>()
 
     init {
-        track.previewUrl?.let { preparePlayer(it) }
         screenStateLiveData.value = PlayerScreenState.Content(track, trackTimeCurrent)
+        preparePlayer()
     }
 
     fun getScreenStateLiveData(): LiveData<PlayerScreenState> = screenStateLiveData
@@ -41,22 +42,25 @@ class PlayerViewModel(
         playStatusLiveData.value = trackPlayer.playerState()
     }
 
-    fun preparePlayer(trackURL: String) {
-        trackPlayer.preparePlayer(trackURL)
+    fun preparePlayer() {
+        track.previewUrl?.let { trackPlayer.preparePlayer(it) }
     }
 
     fun playerOnPause() {
         trackPlayer.playerOnPause()
+        handler.removeCallbacksAndMessages(null)
         playStatusLiveData.value = trackPlayer.playerState()
-    }
+        }
 
     fun playerOnDestroy() {
         trackPlayer.playerOnDestroy()
     }
 
     override fun onCleared() {
+        super.onCleared()
         trackPlayer.playerOnDestroy()
         handler.removeCallbacksAndMessages(null)
+        Log.e("Player", "onCleared")
     }
 
     fun trackTimeUpdate() {
@@ -82,16 +86,5 @@ class PlayerViewModel(
 
     companion object {
         const val TRACK_TIME_DELAY = 300L
-        fun getViewModelFactory(track: SearchTrack?): ViewModelProvider.Factory = viewModelFactory {
-            val trackPlayer = Creator.providePlayerInteractor()
-            initializer {
-                track?.let {
-                    PlayerViewModel(
-                        it,
-                        trackPlayer
-                    )
-                }!!
-            }
-        }
     }
 }

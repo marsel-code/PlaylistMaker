@@ -17,22 +17,19 @@ import com.example.playlistmaker.settings.domain.model.ThemeSettings
 import com.example.playlistmaker.settings.presentation.state.SettingsState
 import com.example.playlistmaker.settings.presentation.view_model.SettingViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: SettingsActivityBinding
-    private lateinit var viewModel: SettingViewModel
+
+    private val viewModel by viewModel <SettingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = SettingsActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            SettingViewModel.getViewModelFactory()
-        )[SettingViewModel::class.java]
 
         val backButton = binding.backMain
         backButton.setOnClickListener {
@@ -53,7 +50,6 @@ class SettingsActivity : AppCompatActivity() {
         agreementUserButton.setOnClickListener {
            viewModel.agreementUserButton()
         }
-
 
         val themeSwitcher = binding.themeSwitcher
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->

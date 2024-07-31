@@ -25,59 +25,50 @@ import com.example.playlistmaker.settings.domain.impl.SharingInteractorImpl
 import com.example.playlistmaker.sharing.data.impl.ExternalNavigatorImpl
 import com.example.playlistmaker.sharing.domain.ExternalNavigator
 import com.example.playlistmaker.sharing.domain.SharingInteractor
+import com.google.gson.Gson
 
 object Creator {
-
-
-    private lateinit var application: Application
-
-    fun initApplication(application: Application) {
-        this.application = application
-    }
-
-    private fun getTracksRepository(): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient(application))
-    }
-
-    fun provideTracksInteractor(): TracksInteractor {
-        return TracksInteractorImpl(getTracksRepository())
-    }
-
-    private fun getPlayerRepository(): PlayerRepository {
-        return PlayerRepositoryImpl()
-    }
-
-    fun providePlayerInteractor(): PlayerInteractor {
-        return PlayerInteractorImpl(getPlayerRepository())
-    }
-
-    private fun getSearchHistoryRepository(): SearchHistoryRepository {
-        return SearchHistoryImpl(providePreference())
-    }
-
-    fun provideSearchHistoryInteractor(): SearchHistoryInteractor {
-        return SearchHistoryInteractorImpl(getSearchHistoryRepository())
-    }
-
-    fun providePreference(): SharedPreferences {
-        return application.getSharedPreferences(APP_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-    }
-
-    private fun getSettingsRepository(): SettingsRepository {
-        return SettingsRepositoryImpl(providePreference())
-    }
-
-    fun provideSettingsInteractor(): SettingsInteractor {
-        return SettingsInteractorImpl(getSettingsRepository())
-    }
-
-    fun provideSharingInteractor(): SharingInteractor {
-        return SharingInteractorImpl(getExternalNavigator())
-    }
-
-    private fun getExternalNavigator(): ExternalNavigator {
-        return ExternalNavigatorImpl(application)
-    }
-
-
+//    private lateinit var application: Application
+//
+//    fun initApplication(application: Application) {
+//        this.application = application
+//    }
+//    private fun getTracksRepository(): TracksRepository {
+//        return TracksRepositoryImpl(RetrofitNetworkClient(application))
+//    }
+//
+//    fun provideTracksInteractor(): TracksInteractor {
+//        return TracksInteractorImpl(getTracksRepository())
+//    }
+//    private fun getPlayerRepository(): PlayerRepository {
+//        return PlayerRepositoryImpl()
+//    }
+//
+//    fun providePlayerInteractor(): PlayerInteractor {
+//        return PlayerInteractorImpl(getPlayerRepository())
+//    }
+//    private fun getSearchHistoryRepository(): SearchHistoryRepository {
+//        return SearchHistoryImpl(providePreference(), Gson())
+//    }
+////    fun provideSearchHistoryInteractor(): SearchHistoryInteractor {
+//        return SearchHistoryInteractorImpl(getSearchHistoryRepository())
+//    }
+//    fun providePreference(): SharedPreferences {
+//        return application.getSharedPreferences(APP_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+//    }
+//
+//    private fun getSettingsRepository(): SettingsRepository {
+//        return SettingsRepositoryImpl(providePreference())
+//    }
+//    fun provideSettingsInteractor(): SettingsInteractor {
+//        return SettingsInteractorImpl(getSettingsRepository())
+//    }
+//
+//    fun provideSharingInteractor(): SharingInteractor {
+//        return SharingInteractorImpl(getExternalNavigator())
+//    }
+//
+//    private fun getExternalNavigator(): ExternalNavigator {
+//        return ExternalNavigatorImpl(application)
+//    }
 }

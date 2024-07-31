@@ -1,6 +1,7 @@
 package com.example.playlistmaker.player.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -12,6 +13,7 @@ import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -20,7 +22,11 @@ import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.player.presentation.state.PlayerState
 import com.example.playlistmaker.player.presentation.view_model.PlayerViewModel
+import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.model.SearchTrack
+import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -42,11 +48,16 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var playerButton: ImageButton
     private lateinit var urlTrackPreview: String
     private lateinit var binding: ActivityPlayerBinding
-    private lateinit var viewModel: PlayerViewModel
+    private lateinit var track: SearchTrack
+
+    val viewModel by viewModel<PlayerViewModel> { parametersOf(track) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        track = IntentCompat.getParcelableExtra(intent, GET_TRACK_PLAYER, SearchTrack::class.java)!!
 
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -78,13 +89,6 @@ class PlayerActivity : AppCompatActivity() {
             viewModel.play()
         }
 
-        val track: SearchTrack? = IntentCompat.getParcelableExtra(intent, GET_TRACK_PLAYER, SearchTrack::class.java)
-
-        viewModel = ViewModelProvider(
-            this,
-            PlayerViewModel.getViewModelFactory(track?.let { it })
-        )[PlayerViewModel::class.java]
-
         viewModel.getScreenStateLiveData().observe(this) { screenState ->
             when (screenState) {
                 is PlayerScreenState.Content -> {
@@ -105,7 +109,6 @@ class PlayerActivity : AppCompatActivity() {
 
     fun setScreenStateTrack(screenState: PlayerScreenState.Content) {
         trackNamePlayer.text = screenState.trackModel.trackName
-        currentTrackTime.text = getString(R.string.currentTrackTime)
         trackArtistPlayer.text = screenState.trackModel.artistName
         trackTimePlayer.text = screenState.trackModel.trackTimeMillis
         headingTrackAlbum.isVisible =
@@ -136,6 +139,6 @@ class PlayerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         viewModel.playerOnPause()
-        playerButton.setImageResource(R.drawable.button_play)
+        Log.e("Player", "onPause")
     }
 }
