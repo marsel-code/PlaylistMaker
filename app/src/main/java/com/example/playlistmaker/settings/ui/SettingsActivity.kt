@@ -2,21 +2,10 @@ package com.example.playlistmaker.settings.ui
 
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.App
-import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.databinding.SettingsActivityBinding
-import com.example.playlistmaker.player.presentation.state.PlayerScreenState
-import com.example.playlistmaker.player.presentation.view_model.PlayerViewModel
-import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
-import com.example.playlistmaker.settings.domain.model.ThemeSettings
 import com.example.playlistmaker.settings.presentation.state.SettingsState
 import com.example.playlistmaker.settings.presentation.view_model.SettingViewModel
-import com.google.android.material.switchmaterial.SwitchMaterial
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
