@@ -16,6 +16,7 @@ materialVersion = "1.6.1"
 preference = "1.2.1"
 retrofit = "2.9.0"
 roomKtx = "2.6.1"
+koinAndroid = "4.0.0-RC1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ androidx-preference = { group = "androidx.preference", name = "preference", vers
 material-v161 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
