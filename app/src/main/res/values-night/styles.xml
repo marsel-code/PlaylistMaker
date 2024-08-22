@@ -315,6 +315,7 @@
         <item name="tabIndicatorColor">@color/white</item>
         <item name="android:background">@color/noColor</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
 
     </style>
 
