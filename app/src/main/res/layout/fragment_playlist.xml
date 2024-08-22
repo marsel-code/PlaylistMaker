@@ -2,10 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/media"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".media.ui.MediaActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -21,37 +19,32 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/Player_constraintGuide" />
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/backButtonPlayer"
-        style="@style/ToolbarTitleText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/back"
-        app:title="@string/media"
-        app:titleTextAppearance="@style/ToolbarTitleText" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        style="@style/TabLayoutMedia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/newPlayList"
+        style="@style/clearSearchList"
+        android:text="@string/new_playlist"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/backButtonPlayer"
-        app:tabGravity="fill"
-        app:tabMaxWidth="0dp"
-        app:tabMode="fixed"
-        app:tabTextAppearance="@style/TabLayoutMedia"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/placeholderImage"
+        style="@style/placeholderImage"
+        android:layout_marginTop="106dp"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/placeholderMessage"
+        style="@style/ErrorMediaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding16"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/placeholderImage"
+        tools:text="ErrorMesage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
