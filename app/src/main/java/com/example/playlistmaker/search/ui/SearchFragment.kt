@@ -10,6 +10,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -23,6 +25,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.presentation.model.SearchTrack
@@ -32,7 +35,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
-    companion object{
+    companion object {
         private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
@@ -87,7 +90,8 @@ class SearchFragment : Fragment() {
         searchLayout = binding.searchLayout
         progressBar = binding.progressBar
 
-        recyclerTrack.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerTrack.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerSearchTrack.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
@@ -111,7 +115,7 @@ class SearchFragment : Fragment() {
             editTextValue?.let { it1 -> viewModel.searchDebounce(it1) }
         }
 
-         simpleTextWatcher = object : TextWatcher {
+        simpleTextWatcher = object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -259,8 +263,4 @@ class SearchFragment : Fragment() {
             updateButton.isVisible = false
         }
     }
-
-
-
-
 }
