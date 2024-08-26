@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".settings.ui.SettingsActivity">
+    tools:context=".settings.ui.SettingsFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/backMain"
         style="@style/ToolbarTitleText"
-        app:navigationIcon="@drawable/back"
         app:title="@string/setting"
         app:titleTextAppearance="@style/ToolbarTitleText" />
 

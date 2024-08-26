@@ -7,7 +7,9 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -16,28 +18,26 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.databinding.ActivitySearchBinding
+import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.presentation.state.SearchState
 import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
 
-    companion object {
+    companion object{
         private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private lateinit var binding: ActivitySearchBinding
+    private lateinit var binding: FragmentSearchBinding
     private var editTextValue: String? = ""
     private lateinit var backButton: Toolbar
     private lateinit var inputEditText: EditText
@@ -50,6 +50,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearSearchListButton: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var searchLayout: LinearLayout
+    private lateinit var simpleTextWatcher: TextWatcher
     private val viewModel by viewModel<SearchViewModel>()
 
     private var isClickAllowed = true
@@ -60,11 +61,19 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         backButton = binding.backMain
         inputEditText = binding.inputEditText
@@ -78,20 +87,18 @@ class SearchActivity : AppCompatActivity() {
         searchLayout = binding.searchLayout
         progressBar = binding.progressBar
 
-        recyclerTrack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recyclerTrack.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerSearchTrack.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        backButton.setOnClickListener {
-            finish()
-        }
 
         clearButton.setOnClickListener {
             inputEditText.setText("")
             recyclerTrack.isVisible = false
             searchLayout.isVisible = false
+
             val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
         }
 
@@ -104,7 +111,7 @@ class SearchActivity : AppCompatActivity() {
             editTextValue?.let { it1 -> viewModel.searchDebounce(it1) }
         }
 
-        val simpleTextWatcher = object : TextWatcher {
+         simpleTextWatcher = object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -127,11 +134,11 @@ class SearchActivity : AppCompatActivity() {
 
         simpleTextWatcher.let { inputEditText.addTextChangedListener(it) }
 
-        viewModel.getLiveDateState().observe(this) {
+        viewModel.getLiveDateState().observe(viewLifecycleOwner) {
             render(it)
         }
 
-        viewModel.observeShowToast().observe(this) { text ->
+        viewModel.observeShowToast().observe(viewLifecycleOwner) { text ->
             showToast(text)
         }
 
@@ -142,9 +149,15 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        simpleTextWatcher?.let { inputEditText.removeTextChangedListener(it) }
+    }
+
+
     private fun selectTrack(track: SearchTrack) {
         viewModel.saveTrack(track)
-        val trackPlayerIntent = Intent(this@SearchActivity, PlayerActivity::class.java)
+        val trackPlayerIntent = Intent(requireContext(), PlayerActivity::class.java)
         trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
         startActivity(trackPlayerIntent)
     }
@@ -222,7 +235,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showToast(additionalMessage: String) {
-        Toast.makeText(this, additionalMessage, Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), additionalMessage, Toast.LENGTH_LONG).show()
     }
 
     fun adapterData(trackListAdapter: List<SearchTrack>) {
@@ -236,8 +249,9 @@ class SearchActivity : AppCompatActivity() {
             placeholderMessage.isVisible = true
             placeholderImage.isVisible = true
             updateButton.isVisible = true
+
             val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
         } else {
             placeholderMessage.isVisible = false
@@ -245,4 +259,8 @@ class SearchActivity : AppCompatActivity() {
             updateButton.isVisible = false
         }
     }
+
+
+
+
 }
