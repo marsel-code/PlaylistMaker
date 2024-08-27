@@ -22,14 +22,16 @@ class PlayListFragment : Fragment() {
         }
     }
 
-    private lateinit var binding: FragmentFavouritesBinding
+    private var _binding: FragmentFavouritesBinding? = null
+    private val binding
+        get() = _binding!!
     private val viewModel by viewModel<FavouritesViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,6 +54,11 @@ class PlayListFragment : Fragment() {
     private fun showEmpty(emptyMessage: String, image: Int) {
         binding.placeholderMessage.text = emptyMessage
         binding.placeholderImage.setImageResource(image)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
 

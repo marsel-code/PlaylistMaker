@@ -11,7 +11,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MediaFragment : Fragment() {
 
-    private lateinit var binding: FragmentMediaBinding
+    private var _binding: FragmentMediaBinding? = null
+    private val binding
+        get() = _binding!!
+
     private lateinit var tabsMediator: TabLayoutMediator
 
     override fun onCreateView(
@@ -19,7 +22,7 @@ class MediaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMediaBinding.inflate(inflater, container, false)
+        _binding = FragmentMediaBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,7 +45,9 @@ class MediaFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        _binding = null
         super.onDestroyView()
         tabsMediator.detach()
+
     }
 }

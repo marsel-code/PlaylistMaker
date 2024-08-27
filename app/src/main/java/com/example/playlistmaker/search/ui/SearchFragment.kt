@@ -40,7 +40,9 @@ class SearchFragment : Fragment() {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding
+        get() = _binding!!
     private var editTextValue: String? = ""
     private lateinit var backButton: Toolbar
     private lateinit var inputEditText: EditText
@@ -70,7 +72,7 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -152,12 +154,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        simpleTextWatcher?.let { inputEditText.removeTextChangedListener(it) }
-    }
-
 
     private fun selectTrack(track: SearchTrack) {
         viewModel.saveTrack(track)
@@ -262,5 +258,11 @@ class SearchFragment : Fragment() {
             placeholderImage.isVisible = false
             updateButton.isVisible = false
         }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        simpleTextWatcher?.let { inputEditText.removeTextChangedListener(it) }
+        super.onDestroyView()
     }
 }
