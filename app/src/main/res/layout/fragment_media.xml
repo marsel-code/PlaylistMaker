@@ -5,7 +5,7 @@
     android:id="@+id/media"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.MediaActivity">
+    tools:context=".media.ui.MediaFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -26,7 +26,6 @@
         style="@style/ToolbarTitleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/back"
         app:title="@string/media"
         app:titleTextAppearance="@style/ToolbarTitleText" />
 

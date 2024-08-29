@@ -17,11 +17,4 @@
 
     </style>
 
-
-    <style name="Theme.PlaylistMaker.Main"  >
-        <item name="android:statusBarColor">?attr/colorSecondary</item>
-        <!-- Customize your theme here. -->
-    </style>
-
-
 </resources>

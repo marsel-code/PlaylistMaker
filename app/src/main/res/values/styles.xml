@@ -346,6 +346,12 @@
 
     </style>
 
+    <style name="BottomMenu">
+        <item name="itemIconTint">@drawable/navigation_view_day</item>
+        <item name="itemTextColor">@drawable/navigation_view_day</item>
+
+    </style>
+
 
 
 </resources>

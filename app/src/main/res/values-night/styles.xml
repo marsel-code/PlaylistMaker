@@ -319,6 +319,11 @@
 
     </style>
 
+    <style name="BottomMenu">
+        <item name="itemIconTint">@drawable/navigation_view_night</item>
+        <item name="itemTextColor">@drawable/navigation_view_night</item>
+
+    </style>
 
 
 

@@ -20,14 +20,5 @@
         <!-- Customize your theme here. -->
         <item name="colorOnError">@color/black</item>
 
-
-
     </style>
-
-    <style name="Theme.PlaylistMaker.Main">
-
-        <item name="android:statusBarColor">?attr/colorSecondary</item>
-        <!-- Customize your theme here. -->
-    </style>
-
 </resources>

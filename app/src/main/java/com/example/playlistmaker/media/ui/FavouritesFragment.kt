@@ -20,14 +20,16 @@ class FavouritesFragment : Fragment() {
         }
     }
 
-    private lateinit var binding: FragmentPlaylistBinding
+    private var _binding: FragmentPlaylistBinding? = null
+    private val binding
+        get() = _binding!!
     private val viewModel by viewModel<PlaylistViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPlaylistBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,6 +55,11 @@ class FavouritesFragment : Fragment() {
         binding.placeholderImage.isVisible = true
         binding.placeholderMessage.text = emptyMessage
         binding.placeholderImage.setImageResource(image)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
 
