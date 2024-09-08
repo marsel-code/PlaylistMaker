@@ -13,8 +13,6 @@ import androidx.core.content.IntentCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
@@ -22,9 +20,7 @@ import com.example.playlistmaker.databinding.ActivityPlayerBinding
 import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.player.presentation.state.PlayerState
 import com.example.playlistmaker.player.presentation.view_model.PlayerViewModel
-import com.example.playlistmaker.search.domain.models.Track
 import com.example.playlistmaker.search.presentation.model.SearchTrack
-import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -50,8 +46,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayerBinding
     private lateinit var track: SearchTrack
 
-    val viewModel by viewModel<PlayerViewModel> { parametersOf(track) }
-
+    private val viewModel by viewModel<PlayerViewModel> { parametersOf(track) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +102,7 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    fun setScreenStateTrack(screenState: PlayerScreenState.Content) {
+    private fun setScreenStateTrack(screenState: PlayerScreenState.Content) {
         trackNamePlayer.text = screenState.trackModel.trackName
         trackArtistPlayer.text = screenState.trackModel.artistName
         trackTimePlayer.text = screenState.trackModel.trackTimeMillis

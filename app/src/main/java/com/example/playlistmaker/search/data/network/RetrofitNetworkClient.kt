@@ -6,12 +6,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.example.playlistmaker.search.data.dto.Response
 import com.example.playlistmaker.search.data.dto.TracksSearchRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitNetworkClient(private val iTunesService: iTunesApi, private val context: Context) : NetworkClient {
 
-    override fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Response {
 
         if (isConnected() == false) {
             return Response().apply { resultCode = -1 }
@@ -20,15 +22,23 @@ class RetrofitNetworkClient(private val iTunesService: iTunesApi, private val co
             return Response().apply { resultCode = 400 }
         }
 
-        val resp = iTunesService.search(dto.request).execute()
-
-        val body = resp.body() ?: Response()
-
-        return if (body != null) {
-            body.apply { resultCode = resp.code() }
-        } else {
-            Response().apply { resultCode = resp.code() }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = iTunesService.search(dto.request)
+                response.apply { resultCode = 200 }
+            } catch (e: Throwable) {
+                Response().apply { resultCode = 500 }
+            }
         }
+//        val resp = iTunesService.search(dto.request).execute()
+//
+//        val body = resp.body() ?: Response()
+//
+//        return if (body != null) {
+//            body.apply { resultCode = resp.code() }
+//        } else {
+//            Response().apply { resultCode = resp.code() }
+//        }
     }
 
     private fun isConnected(): Boolean {

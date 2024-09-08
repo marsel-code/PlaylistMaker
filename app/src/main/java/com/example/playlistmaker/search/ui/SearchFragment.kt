@@ -3,15 +3,11 @@ package com.example.playlistmaker.search.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -23,21 +19,22 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.ui.PlayerActivity
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.presentation.state.SearchState
 import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
+import com.example.playlistmaker.util.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
     companion object {
         private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 
     private var _binding: FragmentSearchBinding? = null
@@ -58,14 +55,10 @@ class SearchFragment : Fragment() {
     private lateinit var simpleTextWatcher: TextWatcher
     private val viewModel by viewModel<SearchViewModel>()
 
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
-    private val adapter = TrackAdapter {
-        if (clickDebounce()) {
-            selectTrack(it)
-        }
-    }
+    private var adapter: TrackAdapter? = null
 
+
+    private lateinit var onSearchClickDebounce: (SearchTrack) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +68,6 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,6 +89,17 @@ class SearchFragment : Fragment() {
         recyclerSearchTrack.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+        onSearchClickDebounce = debounce<SearchTrack>(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope,
+            false,
+        ) { track ->
+            selectTrack(track)
+        }
+
+        adapter = TrackAdapter { track ->
+            onSearchClickDebounce(track)
+        }
 
         clearButton.setOnClickListener {
             inputEditText.setText("")
@@ -160,15 +163,6 @@ class SearchFragment : Fragment() {
         val trackPlayerIntent = Intent(requireContext(), PlayerActivity::class.java)
         trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
         startActivity(trackPlayerIntent)
-    }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
     }
 
     private fun render(state: SearchState) {
@@ -239,9 +233,9 @@ class SearchFragment : Fragment() {
     }
 
     fun adapterData(trackListAdapter: List<SearchTrack>) {
-        adapter.tracksAdapter.clear()
-        adapter.tracksAdapter.addAll(trackListAdapter)
-        adapter.notifyDataSetChanged()
+        adapter?.tracksAdapter?.clear()
+        adapter?.tracksAdapter?.addAll(trackListAdapter)
+        adapter?.notifyDataSetChanged()
     }
 
     fun visibilityError(s: Boolean) {
@@ -262,6 +256,9 @@ class SearchFragment : Fragment() {
 
     override fun onDestroyView() {
         _binding = null
+        adapter = null
+        recyclerTrack.adapter = null
+        recyclerSearchTrack.adapter = null
         simpleTextWatcher?.let { inputEditText.removeTextChangedListener(it) }
         super.onDestroyView()
     }
