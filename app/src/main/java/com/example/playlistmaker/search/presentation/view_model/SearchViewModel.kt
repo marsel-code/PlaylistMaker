@@ -79,7 +79,11 @@ class SearchViewModel(
                     )
                 )
                 latestSearchText = null
-                showToast.postValue("ошибка связи")
+                showToast.postValue(
+                    getApplication<Application>().getString(
+                        R.string.no_connection
+                    )
+                )
             }
 
             tracks.isEmpty() -> {

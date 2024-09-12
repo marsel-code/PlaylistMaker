@@ -2,9 +2,9 @@ package com.example.playlistmaker.player.presentation.state
 
 sealed class PlayerState(val isPlayButtonEnabled: Boolean, val progress: String) {
 
-    class Default : PlayerState(false, "00:00")
+    class Default(progress: String) : PlayerState(false, progress)
 
-    class Prepared : PlayerState(false, "00:00")
+    class Prepared(progress: String) : PlayerState(false, progress)
 
     class Playing(progress: String) : PlayerState(true, progress)
 

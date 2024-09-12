@@ -80,7 +80,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         playerButton.setOnClickListener {
-        viewModel.onPlayButtonClicked()
+            viewModel.onPlayButtonClicked()
         }
 
         viewModel.getScreenStateLiveData().observe(this) {
@@ -93,14 +93,13 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setPlayerStateTrack(playerState: Boolean) {
         if (playerState) binding.buttonPlay.setImageResource(R.drawable.pause_button) else binding.buttonPlay.setImageResource(
             R.drawable.button_play
         )
     }
 
-    private fun setScreenStateTrack(screenState: PlayerScreenState) {
+    private fun setScreenStateTrack(screenState: PlayerScreenState.Content) {
         trackNamePlayer.text = screenState.trackModel.trackName
         trackArtistPlayer.text = screenState.trackModel.artistName
         trackTimePlayer.text = screenState.trackModel.trackTimeMillis

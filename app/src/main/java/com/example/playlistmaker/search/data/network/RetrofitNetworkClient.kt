@@ -11,7 +11,8 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RetrofitNetworkClient(private val iTunesService: iTunesApi, private val context: Context) : NetworkClient {
+class RetrofitNetworkClient(private val iTunesService: iTunesApi, private val context: Context) :
+    NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
 
@@ -30,15 +31,6 @@ class RetrofitNetworkClient(private val iTunesService: iTunesApi, private val co
                 Response().apply { resultCode = 500 }
             }
         }
-//        val resp = iTunesService.search(dto.request).execute()
-//
-//        val body = resp.body() ?: Response()
-//
-//        return if (body != null) {
-//            body.apply { resultCode = resp.code() }
-//        } else {
-//            Response().apply { resultCode = resp.code() }
-//        }
     }
 
     private fun isConnected(): Boolean {
