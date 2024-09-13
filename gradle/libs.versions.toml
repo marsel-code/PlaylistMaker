@@ -20,6 +20,7 @@ koinAndroid = "4.0.0-RC1"
 fragmentKtx = "1.8.2"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
+kotlinxCoroutinesAndroid = "1.9.0-RC.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = 
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

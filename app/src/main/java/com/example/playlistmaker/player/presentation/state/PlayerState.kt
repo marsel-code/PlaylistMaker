@@ -1,8 +1,12 @@
 package com.example.playlistmaker.player.presentation.state
 
-enum class PlayerState {
-    STATE_DEFAULT,
-    STATE_PREPARED,
-    STATE_PLAYING,
-    STATE_PAUSED;
+sealed class PlayerState(val isPlayButtonEnabled: Boolean, val progress: String) {
+
+    class Default(progress: String) : PlayerState(false, progress)
+
+    class Prepared(progress: String) : PlayerState(false, progress)
+
+    class Playing(progress: String) : PlayerState(true, progress)
+
+    class Paused(progress: String) : PlayerState(false, progress)
 }

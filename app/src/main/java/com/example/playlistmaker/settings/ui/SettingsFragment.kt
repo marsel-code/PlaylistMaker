@@ -17,7 +17,6 @@ class SettingsFragment : Fragment() {
         get() = _binding!!
     private val viewModel by viewModel<SettingViewModel>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +28,6 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         val shareButton = binding.share
         shareButton.setOnClickListener {
@@ -51,10 +49,8 @@ class SettingsFragment : Fragment() {
             viewModel.checkedChangeListener(checked)
         }
 
-        viewModel.getSate().observe(viewLifecycleOwner) { screenState ->
-            when (screenState) {
-                is SettingsState.StatusObserver -> themeSwitcher.isChecked = screenState.switch
-            }
+        viewModel.getSate().observe(viewLifecycleOwner) {
+           themeSwitcher.isChecked = it.switch
         }
     }
 

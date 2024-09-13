@@ -16,13 +16,13 @@ class SettingViewModel(
     private val sharingInteractor: SharingInteractor
 ) : AndroidViewModel(application) {
 
-    private val stateSettingsLiveData = MutableLiveData<SettingsState>()
+    private val stateSettingsLiveData = MutableLiveData<SettingsState.StatusObserver>()
 
     init {
         stateSettingsLiveData.postValue(SettingsState.StatusObserver(this.settingsInteractor.getThemeSettings().themeState))
     }
 
-    fun getSate(): LiveData<SettingsState> = stateSettingsLiveData
+    fun getSate(): LiveData<SettingsState.StatusObserver> = stateSettingsLiveData
 
     fun shareButton() {
         sharingInteractor.openTerms()

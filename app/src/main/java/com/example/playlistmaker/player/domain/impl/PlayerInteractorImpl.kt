@@ -6,8 +6,8 @@ import com.example.playlistmaker.player.presentation.state.PlayerState
 
 class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : PlayerInteractor {
 
-    override fun preparePlayer(urlTrackPreview: String) {
-        playerRepository.preparePlayer(urlTrackPreview)
+    override fun initMediaPlayer(urlTrackPreview: String) {
+        playerRepository.initMediaPlayer(urlTrackPreview)
     }
 
     override fun startPlayer() {
@@ -18,26 +18,19 @@ class PlayerInteractorImpl(private val playerRepository: PlayerRepository) : Pla
         playerRepository.pausePlayer()
     }
 
-    override fun playbackControl() {
-        playerRepository.playbackControl()
+    override fun onPlayButtonClicked() {
+        return playerRepository.onPlayButtonClicked()
     }
 
     override fun playerState(): PlayerState {
         return playerRepository.playerState()
     }
 
-    override fun playerGetCurrentPosition(): String {
-        return playerRepository.playerGetCurrentPosition()
+    override fun getCurrentPosition(): String {
+        return playerRepository.getCurrentPosition()
     }
 
-    override fun playerOnPause() {
-        playerRepository.playerOnPause()
-    }
-
-    override fun playerOnDestroy() {
-        playerRepository.playerOnDestroy()
+    override fun releasePlayer() {
+        playerRepository.releasePlayer()
     }
 }
-
-
-

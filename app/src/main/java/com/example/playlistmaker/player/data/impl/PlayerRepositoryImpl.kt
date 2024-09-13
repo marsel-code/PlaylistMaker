@@ -1,75 +1,83 @@
 package com.example.playlistmaker.player.data.impl
 
+import android.content.Context
 import android.media.MediaPlayer
+import com.example.playlistmaker.R
 import com.example.playlistmaker.player.domain.PlayerRepository
 import com.example.playlistmaker.player.presentation.state.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+class PlayerRepositoryImpl(context: Context) : PlayerRepository {
 
-class PlayerRepositoryImpl() : PlayerRepository {
+    private val startProgress = context.getString(R.string.startProgress)
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    private var mediaPlayer: MediaPlayer = MediaPlayer()
+    private var playerState: PlayerState = PlayerState.Default(startProgress)
 
-    private var playerState = PlayerState.STATE_DEFAULT
-    private var mediaPlayer = MediaPlayer()
-
-    private val timeFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
-
-    override fun preparePlayer(urlTrackPreview: String) {
+    override fun initMediaPlayer(urlTrackPreview: String) {
         mediaPlayer.setDataSource(urlTrackPreview)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerState = PlayerState.STATE_PREPARED
+            playerState = PlayerState.Prepared(startProgress)
         }
         mediaPlayer.setOnCompletionListener {
-            playerState = PlayerState.STATE_PREPARED
+            playerState = PlayerState.Prepared(startProgress)
         }
     }
 
     override fun startPlayer() {
         mediaPlayer.start()
-        playerState = PlayerState.STATE_PLAYING
+        if (mediaPlayer.isPlaying) playerState =
+            PlayerState.Playing(dateFormat.format(mediaPlayer.currentPosition))
     }
 
     override fun pausePlayer() {
         mediaPlayer.pause()
-        playerState = PlayerState.STATE_PAUSED
+        playerState = PlayerState.Paused(dateFormat.format(mediaPlayer.currentPosition))
     }
 
-    override fun playbackControl() {
+    override fun onPlayButtonClicked() {
         when (playerState) {
-            PlayerState.STATE_PLAYING -> {
+            is PlayerState.Playing -> {
                 pausePlayer()
-
             }
 
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
+            is PlayerState.Prepared, is PlayerState.Paused -> {
                 startPlayer()
-
             }
 
-            PlayerState.STATE_DEFAULT -> {
-                playerState = PlayerState.STATE_DEFAULT
+            else -> {}
+        }
+    }
+
+    override fun releasePlayer() {
+        mediaPlayer.stop()
+        mediaPlayer.release()
+        playerState = PlayerState.Default(startProgress)
+    }
+
+    override fun playerState(): PlayerState {
+        when (playerState) {
+            is PlayerState.Playing -> {
+                return PlayerState.Playing(getCurrentPosition())
+            }
+
+            is PlayerState.Prepared -> {
+                return PlayerState.Prepared(startProgress)
+            }
+
+            is PlayerState.Paused -> {
+                return PlayerState.Paused(getCurrentPosition())
+            }
+
+            is PlayerState.Default -> {
+                return PlayerState.Default(startProgress)
             }
         }
     }
 
-    override fun playerState(): PlayerState {
-        return playerState
-    }
-
-    override fun playerGetCurrentPosition(): String {
-        return timeFormat.format(mediaPlayer.getCurrentPosition())
-    }
-
-
-    override fun playerOnPause() {
-        pausePlayer()
-    }
-
-
-    override fun playerOnDestroy() {
-        playerState = PlayerState.STATE_DEFAULT
-        mediaPlayer.release()
-//        mediaPlayer.reset()
+    override fun getCurrentPosition(): String {
+        return dateFormat.format(mediaPlayer.currentPosition)
     }
 }

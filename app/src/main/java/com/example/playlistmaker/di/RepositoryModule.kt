@@ -8,6 +8,7 @@ import com.example.playlistmaker.search.domain.SearchHistoryRepository
 import com.example.playlistmaker.search.domain.TracksRepository
 import com.example.playlistmaker.settings.data.impl.SettingsRepositoryImpl
 import com.example.playlistmaker.settings.domain.SettingsRepository
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -21,7 +22,7 @@ val repositoryModule = module {
     }
 
     factory <PlayerRepository> {
-        PlayerRepositoryImpl()
+        PlayerRepositoryImpl(androidContext())
     }
 
     single<SettingsRepository> {

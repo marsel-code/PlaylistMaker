@@ -1,86 +1,80 @@
 package com.example.playlistmaker.player.presentation.view_model
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
+import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.PlayerInteractor
 import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.player.presentation.state.PlayerState
 import com.example.playlistmaker.search.presentation.model.SearchTrack
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerViewModel(
-    private val track: SearchTrack,
+    track: SearchTrack,
     private val trackPlayer: PlayerInteractor
 ) : ViewModel() {
 
-    private var trackTimeCurrent: String = "00:00"
-    private val handler = Handler(Looper.getMainLooper())
+    companion object {
+        const val TRACK_TIME_DELAY = 300L
+    }
 
-    private val screenStateLiveData =
-        MutableLiveData<PlayerScreenState>()
+    private var timerJob: Job? = null
 
-    private val playStatusLiveData = MutableLiveData<PlayerState>()
+    private val screenStateLiveData = MutableLiveData<PlayerScreenState.Content>(
+        PlayerScreenState.Content(
+            track
+        )
+    )
+
+    fun getScreenStateLiveData(): LiveData<PlayerScreenState.Content> = screenStateLiveData
+
+    private val playerStateLiveData = MutableLiveData<PlayerState>(trackPlayer.playerState())
+    fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData
 
     init {
-        screenStateLiveData.value = PlayerScreenState.Content(track, trackTimeCurrent)
-        preparePlayer()
+        track.previewUrl?.let { trackPlayer.initMediaPlayer(it) }
     }
 
-    fun getScreenStateLiveData(): LiveData<PlayerScreenState> = screenStateLiveData
-    fun getPlayStatusLiveData(): LiveData<PlayerState> = playStatusLiveData
-
-    fun play() {
-        trackPlayer.playbackControl()
-        trackTimeUpdate()
-        playStatusLiveData.value = trackPlayer.playerState()
+    fun onPause() {
+        pausePlayer()
     }
 
-    fun preparePlayer() {
-        track.previewUrl?.let { trackPlayer.preparePlayer(it) }
+    fun onPlayButtonClicked() {
+        trackPlayer.onPlayButtonClicked()
+        playerStateLiveData.postValue(trackPlayer.playerState())
+        timerJob?.cancel()
+        startTimer()
     }
 
-    fun playerOnPause() {
-        trackPlayer.playerOnPause()
-        handler.removeCallbacksAndMessages(null)
-        playStatusLiveData.value = trackPlayer.playerState()
+    private fun pausePlayer() {
+        trackPlayer.pausePlayer()
+        timerJob?.cancel()
+        playerStateLiveData.postValue(trackPlayer.playerState())
+    }
+
+    private fun releasePlayer() {
+        trackPlayer.releasePlayer()
+        playerStateLiveData.value = trackPlayer.playerState()
+    }
+
+    private fun startTimer() {
+        timerJob?.cancel()
+        timerJob = viewModelScope.launch {
+            while (trackPlayer.playerState() is PlayerState.Playing) {
+                delay(TRACK_TIME_DELAY)
+                playerStateLiveData.postValue(trackPlayer.playerState())
+            }
         }
-
-    fun playerOnDestroy() {
-        trackPlayer.playerOnDestroy()
     }
 
     override fun onCleared() {
         super.onCleared()
-        trackPlayer.playerOnDestroy()
-        handler.removeCallbacksAndMessages(null)
-        Log.e("Player", "onCleared")
-    }
-
-    fun trackTimeUpdate() {
-        handler.postDelayed(
-            object : Runnable {
-                override fun run() {
-                    trackTimeCurrent = trackPlayer.playerGetCurrentPosition()
-                    screenStateLiveData.postValue(
-                        PlayerScreenState.Content(
-                            track,
-                            trackTimeCurrent
-                        )
-                    )
-                    handler.postDelayed(
-                        this,
-                        TRACK_TIME_DELAY,
-                    )
-                }
-            },
-            TRACK_TIME_DELAY
-        )
-    }
-
-    companion object {
-        const val TRACK_TIME_DELAY = 300L
+        releasePlayer()
     }
 }
