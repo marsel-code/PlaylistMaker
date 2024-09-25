@@ -22,16 +22,16 @@ class PlayListFragment : Fragment() {
         }
     }
 
-    private var _binding: FragmentFavouritesBinding? = null
+    private var _binding: FragmentPlaylistBinding? = null
     private val binding
         get() = _binding!!
-    private val viewModel by viewModel<FavouritesViewModel>()
+    private val viewModel by viewModel<PlaylistViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,8 +39,8 @@ class PlayListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLiveDateState().observe(viewLifecycleOwner) {
             when (it) {
-                is FavouritesSate.Empty -> showEmpty(it.message, it.image)
-                is FavouritesSate.Error -> showError(it.errorMessage, it.errorImage)
+                is PlayListState.Empty -> showEmpty(it.message, it.image)
+                is PlayListState.Error -> showError(it.errorMessage, it.errorImage)
 
             }
         }

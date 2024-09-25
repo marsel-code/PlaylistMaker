@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-parcelize")
-
+    id("kotlin-kapt")
 }
 
 android {
@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,4 +66,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.androidx.core.ktx.v190)
+
+    // Room
+//    val room_version = "2.5.1"
+//    implementation("androidx.room:room-runtime:$room_version")
+//    kapt("androidx.room:room-compiler:$room_version")
+//    implementation("androidx.room:room-ktx:$room_version")
 }

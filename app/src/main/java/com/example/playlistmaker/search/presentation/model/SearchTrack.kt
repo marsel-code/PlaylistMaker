@@ -15,6 +15,7 @@ data class SearchTrack(
     val primaryGenreName: String?,
     val country: String?,
     val previewUrl: String?,
-    val artworkUrl512: String?
+    val artworkUrl512: String?,
+    var isFavorite: Boolean = false
 
 ):Parcelable

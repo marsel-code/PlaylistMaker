@@ -41,6 +41,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var trackGenrePlayer: TextView
     private lateinit var trackCountryPlayer: TextView
     private lateinit var playerButton: ImageButton
+    private lateinit var likeButton: ImageButton
     private lateinit var urlTrackPreview: String
     private lateinit var binding: ActivityPlayerBinding
     private lateinit var track: SearchTrack
@@ -74,6 +75,7 @@ class PlayerActivity : AppCompatActivity() {
         trackGenrePlayer = binding.trackGenrePlayer
         trackCountryPlayer = binding.trackCountryPlayer
         playerButton = binding.buttonPlay
+        likeButton = binding.buttonLike
 
         backButton.setOnClickListener {
             finish()
@@ -82,6 +84,12 @@ class PlayerActivity : AppCompatActivity() {
         playerButton.setOnClickListener {
             viewModel.onPlayButtonClicked()
         }
+
+        likeButton.setOnClickListener {
+            viewModel.onFavoriteClicked()
+        }
+
+        viewModel.checkingTrackFavourites()
 
         viewModel.getScreenStateLiveData().observe(this) {
             setScreenStateTrack(it)
@@ -99,6 +107,13 @@ class PlayerActivity : AppCompatActivity() {
         )
     }
 
+    private fun setButtonLikeState(buttonLikeState: Boolean) {
+        if (buttonLikeState) binding.buttonLike.setImageResource(R.drawable.button_like_active) else binding.buttonLike.setImageResource(
+            R.drawable.button_like
+        )
+    }
+
+
     private fun setScreenStateTrack(screenState: PlayerScreenState.Content) {
         trackNamePlayer.text = screenState.trackModel.trackName
         trackArtistPlayer.text = screenState.trackModel.artistName
@@ -110,6 +125,7 @@ class PlayerActivity : AppCompatActivity() {
         trackGenrePlayer.text = screenState.trackModel.primaryGenreName
         trackCountryPlayer.text = screenState.trackModel.country
         urlTrackPreview = screenState.trackModel.previewUrl.toString()
+        setButtonLikeState(screenState.trackModel.isFavorite)
 
         Glide.with(applicationContext)
             .load(screenState.trackModel.artworkUrl512)
