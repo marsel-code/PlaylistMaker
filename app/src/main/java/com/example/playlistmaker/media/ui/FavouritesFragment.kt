@@ -101,16 +101,16 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun showLoading() {
-        recyclerTrack.visibility = View.GONE
-        progressBar.visibility = View.VISIBLE
+        recyclerTrack.isVisible = false
+        progressBar.isVisible = true
         visibilityError(false)
     }
 
     private fun showContent(tracks: List<SearchTrack>) {
-        recyclerTrack.visibility = View.GONE
+        recyclerTrack.isVisible = false
         visibilityError(false)
-        progressBar.visibility = View.GONE
-        recyclerTrack.visibility = View.VISIBLE
+        progressBar.isVisible = false
+        recyclerTrack.isVisible = true
         recyclerTrack.adapter = adapter
         adapterData(tracks)
     }

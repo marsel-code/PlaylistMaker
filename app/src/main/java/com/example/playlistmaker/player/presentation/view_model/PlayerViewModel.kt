@@ -25,12 +25,7 @@ class PlayerViewModel(
     private val searchTrackMapper: SearchTrackMapper
 ) : ViewModel() {
 
-    companion object {
-        const val TRACK_TIME_DELAY = 300L
-    }
-
     private var timerJob: Job? = null
-
 
     private val screenStateLiveData = MutableLiveData<PlayerScreenState.Content>(
         PlayerScreenState.Content(
@@ -44,7 +39,6 @@ class PlayerViewModel(
     fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData
 
     init {
-//checkingTrackFavourites()
         track.previewUrl?.let { trackPlayer.initMediaPlayer(it) }
     }
 
@@ -115,11 +109,7 @@ class PlayerViewModel(
                         track
                     )
                 )
-//                favouriteInteractor.deleteTrack(
-//                    searchTrackMapper.mapTrack(track)
-//                )
                 favouriteInteractor.deleteTrack(track.trackId)
-
             }
         }
     }
@@ -127,5 +117,9 @@ class PlayerViewModel(
     override fun onCleared() {
         super.onCleared()
         releasePlayer()
+    }
+
+    companion object {
+        const val TRACK_TIME_DELAY = 300L
     }
 }

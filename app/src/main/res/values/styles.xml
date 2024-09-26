@@ -343,15 +343,19 @@
         <item name="android:background">@color/noColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
-
     </style>
 
     <style name="BottomMenu">
         <item name="itemIconTint">@drawable/navigation_view_day</item>
         <item name="itemTextColor">@drawable/navigation_view_day</item>
-
     </style>
 
+    <style name="ProgressBar">
+        <item name="android:layout_width">@dimen/progress_bar_size</item>
+        <item name="android:layout_height">@dimen/progress_bar_size</item>
+        <item name="android:layout_marginTop">104dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
 
 
 </resources>

@@ -19,6 +19,7 @@
     <dimen name="TrackArtistText">11sp</dimen>
     <dimen name="Search_layout_marginTop">8dp</dimen>
     <dimen name="Player_constraintGuide">16dp</dimen>
+    <dimen name="progress_bar_size">44dp</dimen>
 
 
 </resources>
