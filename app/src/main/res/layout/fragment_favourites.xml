@@ -19,6 +19,22 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/Player_constraintGuide" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/padding16"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/ProgressBar"
+        android:indeterminateTint="@color/purpleBlue"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/placeholderImage"
         style="@style/placeholderImage"
@@ -37,6 +53,5 @@
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
         app:layout_constraintTop_toBottomOf="@+id/placeholderImage"
         tools:text="ErrorMesage" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

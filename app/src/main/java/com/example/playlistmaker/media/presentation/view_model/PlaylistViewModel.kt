@@ -25,7 +25,4 @@ class PlaylistViewModel( private val application: Application): AndroidViewModel
     private fun renderState(state: PlayListState) {
         stateLiveData.postValue(state)
     }
-
-
-
 }
