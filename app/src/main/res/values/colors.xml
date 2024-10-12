@@ -13,8 +13,10 @@
     <color name="gray">#E6E8EB</color>
     <color name="perano">#9FBBF3</color>
     <color name="noColor">#0000</color>
-    <color name="buttonPlayer">#1A1B22</color>
     <color name="purpleBlue">#6200EE</color>
+    <color name="buttonPlayer">#1A1B22</color>
+    <color name="playListDetails">#AEAFB4</color>
+    <color name="playListDetailsText">@color/black</color>
 
 
 </resources>

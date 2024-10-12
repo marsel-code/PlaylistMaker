@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavouritesBinding
 import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.presentation.state.FavouritesSate
@@ -22,10 +25,13 @@ class PlayListFragment : Fragment() {
         }
     }
 
+    private lateinit var createPlaylistButton: Button
     private var _binding: FragmentPlaylistBinding? = null
     private val binding
         get() = _binding!!
     private val viewModel by viewModel<PlaylistViewModel>()
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +47,14 @@ class PlayListFragment : Fragment() {
             when (it) {
                 is PlayListState.Empty -> showEmpty(it.message, it.image)
                 is PlayListState.Error -> showError(it.errorMessage, it.errorImage)
-
             }
         }
+        createPlaylistButton = binding.newPlayList
+
+        createPlaylistButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mediaFragment_to_playListDetalisFragment)
+        }
+
     }
 
     private fun showError(errorMessage: String, image: Int) {

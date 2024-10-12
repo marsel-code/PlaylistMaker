@@ -48,5 +48,18 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mediaFragment_to_playListDetalisFragment"
+            app:destination="@id/playListDetalisFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/playListDetalisFragment"
+        android:name="com.example.playlistmaker.media.ui.PlayListDetailsFragment"
+        android:label="fragment_play_list_detalis"
+        tools:layout="@layout/fragment_play_list_details" />
+    <fragment
+        android:id="@+id/playListFragment"
+        android:name="com.example.playlistmaker.media.ui.PlayListFragment"
+        android:label="fragment_playlist"
+        tools:layout="@layout/fragment_playlist" />
 </navigation>
