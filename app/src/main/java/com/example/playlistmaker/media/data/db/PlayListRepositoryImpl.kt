@@ -2,7 +2,6 @@ package com.example.playlistmaker.media.data.db
 
 import com.example.playlistmaker.media.data.db.entity.PlayListEntity
 import com.example.playlistmaker.media.data.mapper.PlayListMapper
-import com.example.playlistmaker.media.domain.db.FavouriteRepository
 import com.example.playlistmaker.media.domain.db.PlayListRepository
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.search.domain.models.Track
@@ -13,11 +12,16 @@ class PlayListRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val mapper: PlayListMapper
 ) : PlayListRepository {
+
     override suspend fun addPlayList(playList: PlayList) {
         appDatabase.playListDao().insertPlayList(mapper.map(playList))
     }
 
-    override suspend fun deletePlayList(playListId: Long) {
+    override suspend fun saveTack(track: Track) {
+       appDatabase.saveTrackDao().saveTrack(mapper.map(track))
+    }
+
+    override suspend fun deletePlayList(playListId: Int) {
         appDatabase.playListDao().getPlayList(playListId)
     }
 
@@ -30,7 +34,7 @@ class PlayListRepositoryImpl(
         emit (convertFromPlayList(playList))
     }
 
-    override suspend fun getPlayList(playListId: Long): Flow<PlayList> =flow {
+    override suspend fun getPlayList(playListId: Int): Flow<PlayList> =flow {
         val playList = appDatabase.playListDao().getPlayList(playListId)
         emit (mapper.map(playList))
     }

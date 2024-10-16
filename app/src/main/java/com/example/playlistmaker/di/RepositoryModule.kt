@@ -40,6 +40,8 @@ val repositoryModule = module {
 
     factory { SearchTrackMapper }
 
+    factory { PlayListMapper() }
+
     single<FavouriteRepository> {
         FavouriteRepositoryImpl(get(), get())
     }
@@ -48,7 +50,7 @@ val repositoryModule = module {
         PlayListRepositoryImpl(get(), get())
     }
 
-    factory { PlayListMapper }
+
 
 
 }

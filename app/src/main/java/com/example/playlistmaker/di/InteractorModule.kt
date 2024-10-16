@@ -53,5 +53,4 @@ val interactorModule = module {
         PlayListInteractorImpl(get())
     }
 
-
 }

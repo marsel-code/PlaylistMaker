@@ -4,7 +4,8 @@ data class PlayList(
     val playListId: Int,
     val playListName: String,
     val playListDescription: String,
-    val artworkUrl: String,
-    val trackList: String,
-    val numberTracks: Long,
-)
+    val artworkUri: String,
+    var numberTracks: Long,
+    var tracksIdList: String,
+
+    )

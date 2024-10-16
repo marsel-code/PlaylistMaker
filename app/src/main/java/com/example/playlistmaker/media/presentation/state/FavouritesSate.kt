@@ -2,7 +2,7 @@ package com.example.playlistmaker.media.presentation.state
 
 import androidx.annotation.DrawableRes
 import com.example.playlistmaker.search.presentation.model.SearchTrack
-import com.example.playlistmaker.search.presentation.state.SearchState
+
 
 sealed interface FavouritesSate {
 

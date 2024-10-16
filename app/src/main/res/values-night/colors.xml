@@ -3,4 +3,6 @@
     <color name="buttonPlayer">#FFFFFF</color>
     <color name="playListDetails">#FFFFFF</color>
     <color name="playListDetailsText">@color/white</color>
+    <color name="rounderBottomSheet">@color/white</color>
+    <color name="bottomSheetColor">@color/black</color>
 </resources>

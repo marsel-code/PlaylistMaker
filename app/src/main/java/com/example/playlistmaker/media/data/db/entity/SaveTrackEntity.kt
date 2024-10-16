@@ -3,10 +3,9 @@ package com.example.playlistmaker.media.data.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "track_table")
-data class TrackEntity (
-    @PrimaryKey(autoGenerate = true)
-    val trackNumber: Int,
+@Entity(tableName = "save_track_table")
+data class SaveTrackEntity (
+    @PrimaryKey()
     val trackId: Long,
     val trackName: String?,
     val artistName: String?,

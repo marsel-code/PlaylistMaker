@@ -12,12 +12,10 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -26,24 +24,27 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentPlayListDetailsBinding
+import com.example.playlistmaker.media.domain.model.PlayList
+import com.example.playlistmaker.media.presentation.view_model.PlayListDetailsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 
-class PlayListDetailsFragment : Fragment() {
+class PlayListDetailsFragment() : Fragment() {
 
     private var _binding: FragmentPlayListDetailsBinding? = null
     private val binding
         get() = _binding!!
 
-    lateinit var confirmDialog: androidx.appcompat.app.AlertDialog
-    private lateinit var playlistNameText: EditText
-    private lateinit var playlistDescriptionText: EditText
     private lateinit var nameTextWatcher: TextWatcher
-    private var nameTextValue: String? = ""
+    private var nameTextValue: String = ""
     private lateinit var descriptionTextWatcher: TextWatcher
-    private var descriptionTextValue: String? = ""
+    private var descriptionTextValue: String = ""
     private var imagePlayList: Boolean = false
+    private val viewModel by viewModel<PlayListDetailsViewModel>()
+    private var uriImage: String = ""
 
 
     override fun onCreateView(
@@ -57,11 +58,6 @@ class PlayListDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        val filePath =
-//            File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
-//        val file = File(filePath, "first_cover.jpg")
-//        binding.imagePlaylistDetails.setImageURI(file.toUri())
 
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -96,11 +92,24 @@ class PlayListDetailsFragment : Fragment() {
 
         binding.newPlayListButton.setOnClickListener {
 
+            viewModel.addPlayList(
+                PlayList(
+                    playListId = 0,
+                    nameTextValue,
+                    descriptionTextValue,
+                    uriImage,
+                    0,
+                    Gson().toJson(ArrayList<Long>())
+                )
+            )
+
             Toast.makeText(
                 activity,
                 "Плейлист $nameTextValue создан",
                 Toast.LENGTH_SHORT
             ).show()
+
+            findNavController().navigateUp()
         }
 
         binding.backButtonPlayer.setNavigationOnClickListener {
@@ -120,29 +129,8 @@ class PlayListDetailsFragment : Fragment() {
                 if (s.toString().isNotEmpty()) {
                     nameTextValue = s.toString()
                     binding.newPlayListButton.isEnabled = true
-//                    context?.let {
-//                        ContextCompat.getColor(
-//                            it,
-//                            R.color.blue
-//                        )
-//                    }?.let {
-//                        binding.newPlayListButton.setBackgroundColor(
-//                            it
-//                        )
-//                    }
-
                 } else {
                     binding.newPlayListButton.isEnabled = false
-//                    context?.let {
-//                        ContextCompat.getColor(
-//                            it,
-//                            R.color.aluminium
-//                        )
-//                    }?.let {
-//                        binding.newPlayListButton.setBackgroundColor(
-//                            it
-//                        )
-//                    }
                     nameTextValue = ""
                 }
             }
@@ -150,7 +138,6 @@ class PlayListDetailsFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         }
-
 
         descriptionTextWatcher = object : TextWatcher {
 
@@ -173,33 +160,33 @@ class PlayListDetailsFragment : Fragment() {
 
         descriptionTextWatcher.let { binding.playlistDescriptionInputText.addTextChangedListener(it) }
 
-
     }
 
     private fun dialog() {
         MaterialAlertDialogBuilder(requireContext(), R.style.dialogTheme)
-            .setTitle("Завершить создание плейлиста?") // Заголовок диалога
-            .setMessage("Все несохраненные данные будут потеряны") // Описание диалога
-            .setNeutralButton("Отмена") { dialog, which -> // Добавляет кнопку «Отмена»
+            .setTitle(resources.getString(R.string.finishAddPlayList))
+            .setMessage(resources.getString(R.string.saveData))
+            .setNeutralButton(resources.getString(R.string.cansel)) { dialog, which ->
             }
-            .setPositiveButton("Завершить") { dialog, which -> // Добавляет кнопку «Да»
+            .setPositiveButton(resources.getString(R.string.complete)) { dialog, which ->
                 findNavController().navigateUp()
             }
             .show()
     }
 
     private fun saveImageToPrivateStorage(uri: Uri) {
+        val currentTime = System.currentTimeMillis()
         val filePath =
             File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
         if (!filePath.exists()) {
             filePath.mkdirs()
         }
-        val file = File(filePath, "first_cover.jpg")
+        val file = File(filePath, "${currentTime}cover.jpg")
         val inputStream = requireActivity().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+        uriImage = file.path
     }
-
 }
