@@ -49,9 +49,9 @@ val dataModule = module {
 object MIGRATION_1_2 : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL(
-            """CREATE TABLE IF NOT EXISTS play_list_table(playListId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, playListName TEXT NOT NULL, playListDescription TEXT, artworkUri TEXT, tracksIdList TEXT, numberTracks LONG)""".trimIndent())
+            """CREATE TABLE IF NOT EXISTS play_list_table(playListId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, playListName TEXT NOT NULL, playListDescription TEXT NOT NULL, artworkUri TEXT NOT NULL, tracksIdList TEXT NOT NULL, numberTracks INTEGER NOT NULL)""".trimIndent())
         database.execSQL(
-            """CREATE TABLE IF NOT EXISTS save_track_table(trackId LONG PRIMARY KEY NOT NULL, trackName TEXT NOT NULL, artistName TEXT, trackTimeMillis TEXT, artworkUrl100 TEXT, collectionName TEXT, releaseDate TEXT, primaryGenreName TEXT,country TEXT, previewUrl TEXT, artworkUrl512 TEXT)""".trimIndent())
+            """CREATE TABLE IF NOT EXISTS save_track_table(trackId INTEGER PRIMARY KEY NOT NULL, trackName TEXT, artistName TEXT, trackTimeMillis TEXT NOT NULL, artworkUrl100 TEXT, collectionName TEXT, releaseDate TEXT, primaryGenreName TEXT,country TEXT, previewUrl TEXT, artworkUrl512 TEXT)""".trimIndent())
     }
 }
 
