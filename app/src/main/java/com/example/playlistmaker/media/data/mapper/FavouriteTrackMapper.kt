@@ -1,9 +1,7 @@
 package com.example.playlistmaker.media.data.mapper
 
 import com.example.playlistmaker.media.data.db.entity.TrackEntity
-import com.example.playlistmaker.search.data.dto.TrackDto
 import com.example.playlistmaker.search.domain.models.Track
-import com.example.playlistmaker.search.presentation.model.SearchTrack
 
 class FavouriteTrackMapper {
 

@@ -1,6 +1,5 @@
 package com.example.playlistmaker.media.data.db.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
