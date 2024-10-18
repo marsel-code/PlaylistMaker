@@ -4,11 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.domain.db.PlayListInteractor
-import com.example.playlistmaker.media.presentation.state.FavouritesSate
+import com.example.playlistmaker.media.domain.PlayListInteractor
 import com.example.playlistmaker.media.presentation.state.PlayListState
 import kotlinx.coroutines.launch
 

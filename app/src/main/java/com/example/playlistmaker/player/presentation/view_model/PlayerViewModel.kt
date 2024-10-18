@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmaker.media.domain.db.FavouriteInteractor
-import com.example.playlistmaker.media.domain.db.PlayListInteractor
+import com.example.playlistmaker.media.domain.FavouriteInteractor
+import com.example.playlistmaker.media.domain.PlayListInteractor
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.player.domain.PlayerInteractor
 import com.example.playlistmaker.player.presentation.state.PlayerBottomSheetState

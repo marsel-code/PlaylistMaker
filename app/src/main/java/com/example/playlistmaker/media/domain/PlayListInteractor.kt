@@ -1,12 +1,11 @@
-package com.example.playlistmaker.media.domain.db
-
+package com.example.playlistmaker.media.domain
 
 
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 
-interface PlayListRepository {
+interface PlayListInteractor {
 
     suspend fun addPlayList(playList: PlayList)
     suspend fun saveTack(track: Track)
@@ -14,4 +13,4 @@ interface PlayListRepository {
     suspend fun updatePlayList(playList: PlayList)
     suspend fun getListPlayList(): Flow<List<PlayList>>
     suspend fun getPlayList(playListId: Int): Flow<PlayList>
- }
+}

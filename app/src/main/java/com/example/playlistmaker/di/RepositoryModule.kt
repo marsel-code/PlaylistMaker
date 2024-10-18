@@ -4,8 +4,8 @@ import com.example.playlistmaker.media.data.db.FavouriteRepositoryImpl
 import com.example.playlistmaker.media.data.db.PlayListRepositoryImpl
 import com.example.playlistmaker.media.data.mapper.FavouriteTrackMapper
 import com.example.playlistmaker.media.data.mapper.PlayListMapper
-import com.example.playlistmaker.media.domain.db.FavouriteRepository
-import com.example.playlistmaker.media.domain.db.PlayListRepository
+import com.example.playlistmaker.media.domain.FavouriteRepository
+import com.example.playlistmaker.media.domain.PlayListRepository
 import com.example.playlistmaker.player.data.impl.PlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.PlayerRepository
 import com.example.playlistmaker.search.data.impl.SearchHistoryImpl

@@ -189,4 +189,9 @@ class PlayListDetailsFragment() : Fragment() {
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
         uriImage = file.path
     }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
 }

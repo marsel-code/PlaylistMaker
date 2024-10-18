@@ -60,10 +60,13 @@ class PlayerFragment : Fragment() {
     private lateinit var addPlayListButton: ImageButton
     private lateinit var bottomSheetContainer: LinearLayout
     private lateinit var urlTrackPreview: String
-    private lateinit var binding: FragmentPlayerBinding
     private lateinit var track: SearchTrack
     private var adapter: PlayerPlayListAdapter? = null
     private lateinit var onClickDebounce: (PlayList) -> Unit
+
+    private var _binding: FragmentPlayerBinding? = null
+    private val binding
+        get() = _binding!!
 
     private val viewModel by viewModel<PlayerViewModel> { parametersOf(track) }
 
@@ -72,7 +75,7 @@ class PlayerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPlayerBinding.inflate(inflater, container, false)
+        _binding = FragmentPlayerBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -159,7 +162,6 @@ class PlayerFragment : Fragment() {
             )
         }
 
-
         viewModel.checkingTrackFavourites()
 
         viewModel.getScreenStateLiveData().observe(viewLifecycleOwner) {
@@ -172,21 +174,16 @@ class PlayerFragment : Fragment() {
         }
 
         viewModel.getPlayerBottomSheetLiveData().observe(viewLifecycleOwner) {
-
             when (it) {
-
                 is PlayerBottomSheetState.Content -> showBottomSheet(it.listPlayList)
                 is PlayerBottomSheetState.Nothing -> bottomSheetBehavior.state =
                     BottomSheetBehavior.STATE_HIDDEN
             }
-
-
         }
 
         viewModel.observeShowToast().observe(viewLifecycleOwner) { toast ->
             showToast(toast)
         }
-
 
     }
 
@@ -256,5 +253,11 @@ class PlayerFragment : Fragment() {
         super.onPause()
         viewModel.onPause()
         Log.e("Player", "onPause")
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        adapter = null
+        super.onDestroyView()
     }
 }

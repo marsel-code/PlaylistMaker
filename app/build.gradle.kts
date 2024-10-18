@@ -56,7 +56,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.room.runtime)
     implementation(libs.peko)
-    implementation(libs.androidx.ui.desktop)
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
     kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -69,9 +70,4 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.androidx.core.ktx.v190)
 
-    // Room
-//    val room_version = "2.5.1"
-//    implementation("androidx.room:room-runtime:$room_version")
-//    kapt("androidx.room:room-compiler:$room_version")
-//    implementation("androidx.room:room-ktx:$room_version")
 }

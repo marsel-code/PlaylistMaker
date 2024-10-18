@@ -1,8 +1,8 @@
 package com.example.playlistmaker.media.domain.impl
 
 
-import com.example.playlistmaker.media.domain.db.PlayListInteractor
-import com.example.playlistmaker.media.domain.db.PlayListRepository
+import com.example.playlistmaker.media.domain.PlayListInteractor
+import com.example.playlistmaker.media.domain.PlayListRepository
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow

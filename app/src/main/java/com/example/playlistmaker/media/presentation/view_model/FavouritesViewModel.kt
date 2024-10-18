@@ -1,16 +1,13 @@
 package com.example.playlistmaker.media.presentation.view_model
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
-import com.example.playlistmaker.media.domain.db.FavouriteInteractor
+import com.example.playlistmaker.media.domain.FavouriteInteractor
 import com.example.playlistmaker.media.presentation.state.FavouritesSate
-import com.example.playlistmaker.player.presentation.state.PlayerScreenState
 import com.example.playlistmaker.search.presentation.mapper.SearchTrackMapper
 import kotlinx.coroutines.launch
 
