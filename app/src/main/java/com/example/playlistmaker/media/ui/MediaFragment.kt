@@ -41,7 +41,6 @@ class MediaFragment : Fragment() {
             }
         }
         tabsMediator.attach()
-
     }
 
     override fun onDestroyView() {

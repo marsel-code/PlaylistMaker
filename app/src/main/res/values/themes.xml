@@ -19,6 +19,6 @@
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="colorOnError">@color/black</item>
-
     </style>
+
 </resources>

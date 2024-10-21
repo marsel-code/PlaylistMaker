@@ -3,6 +3,7 @@ package com.example.playlistmaker.search.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -17,13 +18,16 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
-import com.example.playlistmaker.player.ui.PlayerActivity
+import com.example.playlistmaker.player.ui.PlayerFragment
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.presentation.state.SearchState
 import com.example.playlistmaker.search.presentation.view_model.SearchViewModel
@@ -160,9 +164,9 @@ class SearchFragment : Fragment() {
 
     private fun selectTrack(track: SearchTrack) {
         viewModel.saveTrack(track)
-        val trackPlayerIntent = Intent(requireContext(), PlayerActivity::class.java)
-        trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
-        startActivity(trackPlayerIntent)
+        findNavController().navigate(
+            R.id.action_searchFragment_to_playerActivity,
+            PlayerFragment.createArgs(track))
     }
 
     private fun render(state: SearchState) {

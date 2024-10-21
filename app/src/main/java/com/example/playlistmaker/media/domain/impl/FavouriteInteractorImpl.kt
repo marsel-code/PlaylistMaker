@@ -1,9 +1,7 @@
 package com.example.playlistmaker.media.domain.impl
 
-
-import com.example.playlistmaker.media.data.db.entity.TrackEntity
-import com.example.playlistmaker.media.domain.db.FavouriteInteractor
-import com.example.playlistmaker.media.domain.db.FavouriteRepository
+import com.example.playlistmaker.media.domain.FavouriteInteractor
+import com.example.playlistmaker.media.domain.FavouriteRepository
 import com.example.playlistmaker.search.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 

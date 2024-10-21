@@ -1,6 +1,5 @@
 package com.example.playlistmaker.media.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,14 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentFavouritesBinding
 import com.example.playlistmaker.media.presentation.state.FavouritesSate
 import com.example.playlistmaker.media.presentation.view_model.FavouritesViewModel
-import com.example.playlistmaker.player.ui.PlayerActivity
+import com.example.playlistmaker.player.ui.PlayerFragment
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.ui.TrackAdapter
 import com.example.playlistmaker.util.debounce
@@ -30,7 +31,6 @@ class FavouritesFragment : Fragment() {
             }
         }
 
-        private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
         private const val CLICK_DEBOUNCE_DELAY = 300L
     }
 
@@ -86,9 +86,10 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun selectTrack(track: SearchTrack) {
-        val trackPlayerIntent = Intent(requireContext(), PlayerActivity::class.java)
-        trackPlayerIntent.putExtra(GET_TRACK_PLAYER, track)
-        startActivity(trackPlayerIntent)
+        findNavController().navigate(
+            R.id.action_mediaFragment_to_playerFragment,
+            PlayerFragment.createArgs(track)
+        )
     }
 
     private fun render(state: FavouritesSate) {

@@ -1,7 +1,10 @@
 package com.example.playlistmaker.di
 
 import android.content.Context
+import android.os.FileObserver.CREATE
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.playlistmaker.APP_SHARED_PREFERENCES
 import com.example.playlistmaker.media.data.db.AppDatabase
 import com.example.playlistmaker.search.data.impl.SearchHistoryImpl
@@ -38,6 +41,18 @@ val dataModule = module {
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
 }
+
+object MIGRATION_1_2 : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            """CREATE TABLE IF NOT EXISTS play_list_table(playListId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, playListName TEXT NOT NULL, playListDescription TEXT NOT NULL, artworkUri TEXT NOT NULL, tracksIdList TEXT NOT NULL, numberTracks INTEGER NOT NULL)""".trimIndent())
+        database.execSQL(
+            """CREATE TABLE IF NOT EXISTS save_track_table(trackId INTEGER PRIMARY KEY NOT NULL, trackName TEXT, artistName TEXT, trackTimeMillis TEXT NOT NULL, artworkUrl100 TEXT, collectionName TEXT, releaseDate TEXT, primaryGenreName TEXT,country TEXT, previewUrl TEXT, artworkUrl512 TEXT)""".trimIndent())
+    }
+}
+
+
