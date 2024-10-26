@@ -27,25 +27,25 @@ import com.example.playlistmaker.databinding.FragmentPlayListDetailsBinding
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.media.presentation.view_model.PlayListDetailsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.gson.Gson
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 
-class PlayListDetailsFragment() : Fragment() {
+open class PlayListDetailsFragment() : Fragment() {
 
     private var _binding: FragmentPlayListDetailsBinding? = null
-    private val binding
+    open val binding
         get() = _binding!!
 
     private lateinit var nameTextWatcher: TextWatcher
-    private var nameTextValue: String = ""
     private lateinit var descriptionTextWatcher: TextWatcher
+    private var nameTextValue: String = ""
     private var descriptionTextValue: String = ""
+    open var uriImage: String = ""
+    open var listTracks: String = "[]"
+    open var tracksNumber: Long = 0
     private var imagePlayList: Boolean = false
-    private val viewModel by viewModel<PlayListDetailsViewModel>()
-    private var uriImage: String = ""
-
+    open val viewModel by viewModel<PlayListDetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -98,8 +98,8 @@ class PlayListDetailsFragment() : Fragment() {
                     nameTextValue,
                     descriptionTextValue,
                     uriImage,
-                    0,
-                    Gson().toJson(ArrayList<Long>())
+                    tracksNumber,
+                    listTracks
                 )
             )
 

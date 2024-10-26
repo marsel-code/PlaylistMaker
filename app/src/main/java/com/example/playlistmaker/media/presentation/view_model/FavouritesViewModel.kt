@@ -9,6 +9,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.media.domain.FavouriteInteractor
 import com.example.playlistmaker.media.presentation.state.FavouritesSate
 import com.example.playlistmaker.search.presentation.mapper.SearchTrackMapper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FavouritesViewModel(
@@ -20,13 +21,12 @@ class FavouritesViewModel(
     private val stateLiveData = MutableLiveData<FavouritesSate>(FavouritesSate.Loading)
     fun getLiveDateState(): LiveData<FavouritesSate> = stateLiveData
 
-
     init {
         renderState()
     }
 
     fun renderState() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             favouriteInteractor
                 .getFavouriteTracks()
                 .collect { tracks ->

@@ -38,13 +38,13 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         tools:text="500" />
 
-    <TextView
-        style="@style/play_list_text"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:text="@string/tracks"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/numberTracks" />
+<!--    <TextView-->
+<!--        style="@style/play_list_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="16dp"-->
+<!--        android:text="@string/tracks"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/numberTracks" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

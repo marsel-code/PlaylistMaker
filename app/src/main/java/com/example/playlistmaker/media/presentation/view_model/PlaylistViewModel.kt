@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.R
 import com.example.playlistmaker.media.domain.PlayListInteractor
 import com.example.playlistmaker.media.presentation.state.PlayListState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class PlaylistViewModel(
@@ -22,17 +23,16 @@ class PlaylistViewModel(
     }
 
     fun renderState() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             playListInteractor
                 .getListPlayList()
-                   .collect { listPlayList ->
+                .collect { listPlayList ->
                     if (listPlayList.isNotEmpty()) {
                         stateLiveData.postValue(
                             PlayListState.Content(
                                 listPlayList
                             )
                         )
-
                     } else {
                         stateLiveData.postValue(
                             PlayListState.Empty(
@@ -44,8 +44,4 @@ class PlaylistViewModel(
                 }
         }
     }
-
-
-
-
 }

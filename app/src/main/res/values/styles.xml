@@ -409,10 +409,21 @@
     </style>
 
     <style name="dialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="materialAlertDialogTitleTextStyle">@style/Components.Temper.Dialog.Title</item>
         <item name="buttonBarPositiveButtonStyle">@style/Dialog.Button.Positive</item>
         <item name="buttonBarNegativeButtonStyle">@style/Dialog.Button.Neutral</item>
         <item name="buttonBarNeutralButtonStyle">@style/Dialog.Button.Neutral</item>
     </style>
+
+    <style name="Components.Temper.Dialog.Title" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
 
     <style name="Dialog.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@color/noColor</item>
@@ -487,6 +498,82 @@
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/aluminium</item>
         <item name="android:textSize">@dimen/TrackArtistText</item>
+    </style>
+
+    <style name="playListNameInfo">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="playListDescriptionInfo">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="playListTracksNumberInfo">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="menuPlayListName">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="menuPlayListTracks">
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginTop">26dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/aluminium</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="menuShare">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">36dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="menuEditDelete">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 

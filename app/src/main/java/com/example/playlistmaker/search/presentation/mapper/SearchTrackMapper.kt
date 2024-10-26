@@ -8,7 +8,7 @@ object SearchTrackMapper {
         return SearchTrack(
             trackId = track.trackId,
             trackName = track.trackName,
-            artistName = track.trackName,
+            artistName = track.artistName,
             trackTimeMillis = track.trackTimeMillis,
             artworkUrl100 = track.artworkUrl100,
             collectionName = track.collectionName,
@@ -24,7 +24,7 @@ object SearchTrackMapper {
         return Track(
             trackId = track.trackId,
             trackName = track.trackName,
-            artistName = track.trackName,
+            artistName = track.artistName,
             trackTimeMillis = track.trackTimeMillis,
             artworkUrl100 = track.artworkUrl100,
             collectionName = track.collectionName,
@@ -34,4 +34,11 @@ object SearchTrackMapper {
             previewUrl = track.previewUrl,
         )
     }
+
+     fun convertFromSearchTrack(tracks: List<Track>): List<SearchTrack> {
+        return tracks.map { track -> mapSearchTrack(track) }
+    }
+
+
+
 }

@@ -5,6 +5,7 @@
     <dimen name="buttonR">16dp</dimen>
     <dimen name="text16">16sp</dimen>
     <dimen name="padding16">16dp</dimen>
+    <dimen name="padding40">40dp</dimen>
     <dimen name="heightSettingText">61dp</dimen>
     <dimen name="dividerMain">12dp</dimen>
     <dimen name="heightToolBar">56dp</dimen>

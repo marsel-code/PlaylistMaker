@@ -14,13 +14,16 @@ class PlayListInteractorImpl(private val playListRepository: PlayListRepository)
         return playListRepository.addPlayList(playList)
     }
 
-    override suspend fun saveTack(track: Track){
+    override suspend fun saveTack(track: Track) {
         return playListRepository.saveTack(track)
     }
 
+    override suspend fun deleteTack(trackId: Long) {
+        return playListRepository.deleteTack(trackId)
+    }
 
-    override suspend fun deletePlayList(playListId: Int) {
-        return playListRepository.deletePlayList(playListId)
+    override suspend fun deletePlayList(playList: PlayList) {
+        return playListRepository.deletePlayList(playList)
     }
 
     override suspend fun updatePlayList(playList: PlayList) {
@@ -34,4 +37,13 @@ class PlayListInteractorImpl(private val playListRepository: PlayListRepository)
     override suspend fun getPlayList(playListId: Int): Flow<PlayList> {
         return playListRepository.getPlayList(playListId)
     }
+
+    override suspend fun getListTrack(listTracks: List<Long>): Flow<List<Track>> {
+        return playListRepository.getListTrack(listTracks)
+    }
+
+    override suspend fun deleteTrackPlayList(playList: PlayList) {
+        return playListRepository.deleteTrackPlayList(playList)
+    }
+
 }
