@@ -56,18 +56,24 @@ open class PlayListInfoViewModel(
 
     fun getTracks(playList: PlayList) {
         viewModelScope.launch(Dispatchers.IO) {
-            playListInteractor.getListTrack(listFromJson(playList.tracksIdList))
-                .collect { getTrackList ->
-                    val sumTracksTime =
-                        ((getTrackList.sumOf { trackTimeSecFromInt(it.trackTimeMillis) }) / 60)
-                    stateLiveDataBottomSheet.postValue(
-                        PlayListInfoState.ContentBottomSheet(
-                            playList,
-                            mapper.convertFromSearchTrack(getTrackList), sumTracksTime
-                        )
-                    )
-                    trackList = getTrackList
-                }
+            val listTrackId = listFromJson(playList.tracksIdList)
+            val newTrackList = ArrayList<SearchTrack>()
+            listTrackId.forEach {
+                playListInteractor.getTrack(it)
+                    .collect() { getTrack ->
+                        newTrackList.add(mapper.mapSearchTrack(getTrack))
+                    }
+            }
+            val sumTracksTime =
+                ((newTrackList.sumOf { trackTimeSecFromInt(it.trackTimeMillis) }) / 60)
+
+            stateLiveDataBottomSheet.postValue(
+                PlayListInfoState.ContentBottomSheet(
+                    playList,
+                    newTrackList, sumTracksTime
+                )
+            )
+            trackList = mapper.convertFromTrack(newTrackList)
         }
     }
 
@@ -77,9 +83,11 @@ open class PlayListInfoViewModel(
                 .collect { playList ->
                     val tracksIdList = listFromJson(playList.tracksIdList)
                     tracksIdList.remove(track.trackId)
-                    playList.tracksIdList = listToJson(tracksIdList)
-                    playList.numberTracks = tracksIdList.size.toLong()
-                    playListInteractor.updatePlayList(playList)
+                    val playListCopy = playList.copy(
+                        tracksIdList = listToJson(tracksIdList),
+                        numberTracks = tracksIdList.size.toLong()
+                    )
+                    playListInteractor.updatePlayList(playListCopy)
                     getPlayList(playListId)
                 }
             playListInteractor.deleteTack(track.trackId)

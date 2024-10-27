@@ -18,12 +18,6 @@ import org.koin.core.parameter.parametersOf
 
 class PlayListEditFragment : PlayListDetailsFragment() {
 
-    companion object {
-        private const val GET_PLAY_LIST = "GET_PLAY_LIST"
-        fun createArgs(playListId: Int): Bundle =
-            bundleOf(GET_PLAY_LIST to playListId)
-    }
-
     private var playListId = 0
     override val viewModel by viewModel<PlayListEditViewModel>() { parametersOf(playListId) }
 
@@ -70,5 +64,11 @@ class PlayListEditFragment : PlayListDetailsFragment() {
                 )
             )
             .into(binding.imagePlaylistDetails)
+    }
+
+    companion object {
+        private const val GET_PLAY_LIST = "GET_PLAY_LIST"
+        fun createArgs(playListId: Int): Bundle =
+            bundleOf(GET_PLAY_LIST to playListId)
     }
 }

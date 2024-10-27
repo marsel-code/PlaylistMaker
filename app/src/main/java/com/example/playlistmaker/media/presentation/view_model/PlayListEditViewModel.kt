@@ -16,7 +16,7 @@ class PlayListEditViewModel(
     playListInteractor
 ) {
 
-    private lateinit var playList:PlayList
+    private lateinit var playList: PlayList
 
     private val stateLiveData = MutableLiveData<PlayListEditState.Content>()
     fun getLiveDateState(): LiveData<PlayListEditState.Content> = stateLiveData
@@ -28,14 +28,15 @@ class PlayListEditViewModel(
                     stateLiveData.postValue(PlayListEditState.Content(getPlayList))
                     playList = getPlayList
                 }
-                    }
+        }
     }
 
     override fun addPlayList(playList: PlayList) {
         viewModelScope.launch(Dispatchers.IO) {
-            playList.playListId = playListId
 
-            playListInteractor.addPlayList(playList)
+           val playListCopy = playList.copy(playListId = playListId)
+
+            playListInteractor.addPlayList(playListCopy)
         }
     }
 }

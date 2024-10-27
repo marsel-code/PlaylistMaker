@@ -17,7 +17,7 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/backButton"
-            style="@style/ToolbarTitleText"
+            style="@style/ToolbarPlayListInfo"
             android:elevation="1dp"
             android:outlineAmbientShadowColor="@color/noColor"
             android:outlineSpotShadowColor="@color/noColor"
@@ -34,7 +34,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/no_reply" />
+            tools:src="@drawable/placeholder_info"
+            />
 
         <TextView
             android:id="@+id/playListName"

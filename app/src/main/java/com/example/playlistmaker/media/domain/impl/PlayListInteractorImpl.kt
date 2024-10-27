@@ -38,6 +38,10 @@ class PlayListInteractorImpl(private val playListRepository: PlayListRepository)
         return playListRepository.getPlayList(playListId)
     }
 
+    override suspend fun getTrack(trackId: Long): Flow<Track> {
+return  playListRepository.getTrack(trackId)
+    }
+
     override suspend fun getListTrack(listTracks: List<Long>): Flow<List<Track>> {
         return playListRepository.getListTrack(listTracks)
     }

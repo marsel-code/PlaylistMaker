@@ -128,17 +128,14 @@ class PlayerViewModel(
     fun checkingTrackPlayList(playList: PlayList, trackSearch: SearchTrack) {
         val tracksIdList = listFromJson(playList.tracksIdList)
         if (tracksIdList.indexOf(trackSearch.trackId) == -1) {
-            tracksIdList.add(trackSearch.trackId)
-            playList.tracksIdList = listToJson(tracksIdList)
-            playList.numberTracks = tracksIdList.size.toLong()
+            tracksIdList.add(0, trackSearch.trackId)
+            val playListCopy = playList.copy(tracksIdList = listToJson(tracksIdList),numberTracks = tracksIdList.size.toLong() )
             viewModelScope.launch(Dispatchers.IO) {
                 playListInteractor
-                    .updatePlayList(playList)
+                    .updatePlayList(playListCopy)
                 playListUpdate()
-
                 playListInteractor
                     .saveTack(searchTrackMapper.mapTrack(trackSearch))
-
                 showToast.postValue(
                     "Добавлено в плейлист ${playList.playListName}"
                 )

@@ -8,11 +8,9 @@ import com.example.playlistmaker.media.data.mapper.PlayListMapper
 import com.example.playlistmaker.media.domain.PlayListRepository
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.search.domain.models.Track
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.lang.reflect.Type
+
 
 class PlayListRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -48,6 +46,11 @@ class PlayListRepositoryImpl(
     override suspend fun getPlayList(playListId: Int): Flow<PlayList> = flow {
         val playList = appDatabase.playListDao().getPlayList(playListId)
         emit(mapperPlayList.map(playList))
+    }
+
+    override suspend fun getTrack(trackId: Long): Flow<Track> = flow {
+        val track = appDatabase.saveTrackDao().getTrackById(trackId)
+        emit(mapperTrack.map(track))
     }
 
     override suspend fun getListTrack(listTracks: List<Long>): Flow<List<Track>> = flow {

@@ -7,7 +7,10 @@ import com.example.playlistmaker.databinding.TrackItemBinding
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.ui.TrackViewHolder
 
-class PlayListInfoAdapter(private val clickListener: TrackClickListener, private val longClickListener: TrackLongClickListener):  RecyclerView.Adapter<TrackViewHolder>()  {
+class PlayListInfoAdapter(
+    private val clickListener: TrackClickListener,
+    private val longClickListener: TrackLongClickListener
+) : RecyclerView.Adapter<TrackViewHolder>() {
 
     var tracksAdapter = ArrayList<SearchTrack>()
 
@@ -19,7 +22,13 @@ class PlayListInfoAdapter(private val clickListener: TrackClickListener, private
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(tracksAdapter.get(position))
         holder.itemView.setOnClickListener { clickListener.onTrackClick(tracksAdapter.get(position)) }
-        holder.itemView.setOnLongClickListener { longClickListener.onLongTrackClick(tracksAdapter.get(position)) }
+        holder.itemView.setOnLongClickListener {
+            longClickListener.onLongTrackClick(
+                tracksAdapter.get(
+                    position
+                )
+            )
+        }
     }
 
     override fun getItemCount(): Int = tracksAdapter.size
@@ -31,7 +40,4 @@ class PlayListInfoAdapter(private val clickListener: TrackClickListener, private
     fun interface TrackLongClickListener {
         fun onLongTrackClick(track: SearchTrack): Boolean
     }
-
-
-
 }

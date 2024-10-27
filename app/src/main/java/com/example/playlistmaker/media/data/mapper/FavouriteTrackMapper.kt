@@ -52,5 +52,4 @@ class FavouriteTrackMapper {
             previewUrl = track.previewUrl,
         )
     }
-
-}
+    }

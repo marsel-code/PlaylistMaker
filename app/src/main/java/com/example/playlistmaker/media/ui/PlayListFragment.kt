@@ -19,14 +19,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListFragment : Fragment() {
 
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 300L
-        fun newInstance() = PlayListFragment().apply {
-            arguments = Bundle().apply {
-            }
-        }
-    }
-
     private var _binding: FragmentPlaylistBinding? = null
     private val binding
         get() = _binding!!
@@ -46,7 +38,7 @@ class PlayListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         onClickDebounce = debounce<PlayList>(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false,
         ) { playList ->
@@ -114,6 +106,15 @@ class PlayListFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
+        fun newInstance() = PlayListFragment().apply {
+            arguments = Bundle().apply {
+            }
+        }
     }
 }
 

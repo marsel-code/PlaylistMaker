@@ -29,7 +29,7 @@ class PlayListViewHolder(private val binding: PlayListItemBinding) :
 
         Glide.with(itemView)
             .load(playList.artworkUri)
-            .placeholder(R.drawable.no_reply)
+            .placeholder(R.drawable.placeholder_info)
             .centerCrop()
             .transform(
                 MultiTransformation(

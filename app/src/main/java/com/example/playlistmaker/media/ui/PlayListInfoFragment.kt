@@ -32,14 +32,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListInfoFragment : Fragment() {
 
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 300L
-        private const val GET_PLAY_LIST = "GET_PLAY_LIST"
-
-        fun createArgs(playListId: Int): Bundle =
-            bundleOf(GET_PLAY_LIST to playListId)
-    }
-
     private var _binding: FragmentPlayListInfoBinding? = null
     private val binding
         get() = _binding!!
@@ -142,6 +134,8 @@ class PlayListInfoFragment : Fragment() {
 
         binding.menuShare.setOnClickListener {
             viewModel.sharePlayList()
+            bottomSheetBehaviorMenu.state =
+                BottomSheetBehavior.STATE_HIDDEN
         }
 
         binding.menuDelete.setOnClickListener {
@@ -156,7 +150,7 @@ class PlayListInfoFragment : Fragment() {
         }
 
         onClickDebounce = debounce<SearchTrack>(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false,
         ) { track ->
@@ -212,7 +206,7 @@ class PlayListInfoFragment : Fragment() {
         binding.playlistDescription.text = playList.playListDescription
         Glide.with(requireContext())
             .load(playList.artworkUri)
-            .placeholder(R.drawable.no_reply)
+            .placeholder(R.drawable.placeholder_info)
             .centerCrop()
             .into(binding.imagePlayList)
         viewModel.getTracks(playList)
@@ -270,6 +264,12 @@ class PlayListInfoFragment : Fragment() {
             playList.numberTracks.toInt(),
             playList.numberTracks.toInt()
         )
+        if (playList.tracksIdList == "[]") showToast(
+            requireContext().getString(
+                R.string.no_track_play_list,
+                playList.playListName
+            )
+        )
     }
 
     private fun showToast(text: String) {
@@ -284,5 +284,13 @@ class PlayListInfoFragment : Fragment() {
         _binding = null
         adapter = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
+        private const val GET_PLAY_LIST = "GET_PLAY_LIST"
+
+        fun createArgs(playListId: Int): Bundle =
+            bundleOf(GET_PLAY_LIST to playListId)
     }
 }

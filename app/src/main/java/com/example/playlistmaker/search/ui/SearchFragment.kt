@@ -1,9 +1,7 @@
 package com.example.playlistmaker.search.ui
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -18,7 +16,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -35,11 +32,6 @@ import com.example.playlistmaker.util.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
-
-    companion object {
-        private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
-        private const val CLICK_DEBOUNCE_DELAY = 300L
-    }
 
     private var _binding: FragmentSearchBinding? = null
     private val binding
@@ -94,7 +86,7 @@ class SearchFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         onSearchClickDebounce = debounce<SearchTrack>(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false,
         ) { track ->
@@ -265,5 +257,9 @@ class SearchFragment : Fragment() {
         recyclerSearchTrack.adapter = null
         simpleTextWatcher?.let { inputEditText.removeTextChangedListener(it) }
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
     }
 }

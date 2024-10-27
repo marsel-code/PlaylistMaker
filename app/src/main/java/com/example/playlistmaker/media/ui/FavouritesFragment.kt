@@ -25,15 +25,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavouritesFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = FavouritesFragment().apply {
-            arguments = Bundle().apply {
-            }
-        }
-
-        private const val CLICK_DEBOUNCE_DELAY = 300L
-    }
-
     private lateinit var recyclerTrack: RecyclerView
     private lateinit var placeholderMessage: TextView
     private lateinit var placeholderImage: ImageView
@@ -69,7 +60,7 @@ class FavouritesFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         onClickDebounce = debounce<SearchTrack>(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false,
         ) { track ->
@@ -159,6 +150,15 @@ class FavouritesFragment : Fragment() {
         adapter = null
         recyclerTrack.adapter = null
         super.onDestroyView()
+    }
+
+    companion object {
+        fun newInstance() = FavouritesFragment().apply {
+            arguments = Bundle().apply {
+            }
+        }
+
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
     }
 }
 

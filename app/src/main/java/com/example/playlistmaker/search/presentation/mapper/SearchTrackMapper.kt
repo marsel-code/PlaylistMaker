@@ -39,6 +39,9 @@ object SearchTrackMapper {
         return tracks.map { track -> mapSearchTrack(track) }
     }
 
+    fun convertFromTrack(tracks: List<SearchTrack>): List<Track> {
+        return tracks.map { track -> mapTrack(track) }
+    }
 
 
 }
