@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.playlistmaker.R
@@ -14,24 +14,17 @@ import com.example.playlistmaker.databinding.FragmentPlaylistBinding
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.media.presentation.state.PlayListState
 import com.example.playlistmaker.media.presentation.view_model.PlaylistViewModel
+import com.example.playlistmaker.util.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = PlayListFragment().apply {
-            arguments = Bundle().apply {
-            }
-        }
-    }
-
-    private lateinit var createPlaylistButton: Button
     private var _binding: FragmentPlaylistBinding? = null
     private val binding
         get() = _binding!!
     private val viewModel by viewModel<PlaylistViewModel>()
-
-
+    private lateinit var onClickDebounce: (PlayList) -> Unit
+    private var adapter: PlayListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +37,20 @@ class PlayListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        onClickDebounce = debounce<PlayList>(
+            CLICK_DEBOUNCE_DELAY_MILLIS,
+            viewLifecycleOwner.lifecycleScope,
+            false,
+        ) { playList ->
+            selectPlayList(playList)
+        }
 
+        adapter = PlayListAdapter { playList ->
+            onClickDebounce(playList)
+        }
+
+
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
         viewModel.getLiveDateState().observe(viewLifecycleOwner) {
             when (it) {
@@ -54,10 +59,11 @@ class PlayListFragment : Fragment() {
                 is PlayListState.Error -> showError(it.errorMessage, it.errorImage)
             }
         }
-        createPlaylistButton = binding.newPlayList
 
-        createPlaylistButton.setOnClickListener {
-            findNavController().navigate(R.id.action_mediaFragment_to_playListDetalisFragment)
+        binding.newPlayList.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_mediaFragment_to_playListDetalisFragment
+            )
         }
     }
 
@@ -65,7 +71,10 @@ class PlayListFragment : Fragment() {
         binding.placeholderMessage.isVisible = false
         binding.placeholderImage.isVisible = false
         binding.recyclerView.isVisible = true
-        binding.recyclerView.adapter = PlayListAdapter(playList)
+        binding.recyclerView.adapter = adapter
+        adapter?.listPlayList?.clear()
+        adapter?.listPlayList?.addAll(playList)
+        adapter?.notifyDataSetChanged()
     }
 
 
@@ -75,8 +84,18 @@ class PlayListFragment : Fragment() {
     }
 
     private fun showEmpty(emptyMessage: String, image: Int) {
+        binding.placeholderMessage.isVisible = true
+        binding.placeholderImage.isVisible = true
+        binding.recyclerView.isVisible = false
         binding.placeholderMessage.text = emptyMessage
         binding.placeholderImage.setImageResource(image)
+    }
+
+    private fun selectPlayList(playList: PlayList) {
+        findNavController().navigate(
+            R.id.action_mediaFragment_to_playListInfoFragment,
+            PlayListInfoFragment.createArgs(playList.playListId)
+        )
     }
 
     override fun onResume() {
@@ -87,6 +106,15 @@ class PlayListFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
+        fun newInstance() = PlayListFragment().apply {
+            arguments = Bundle().apply {
+            }
+        }
     }
 }
 

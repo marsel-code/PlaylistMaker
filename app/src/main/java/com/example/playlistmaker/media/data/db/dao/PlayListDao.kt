@@ -18,7 +18,7 @@ interface PlayListDao {
 
 
     @Query("DELETE FROM play_list_table WHERE playListId = :playListId")
-    suspend fun deletePlayList(playListId: Long)
+    suspend fun deletePlayList(playListId: Int)
 
 
     @Query("SELECT * FROM play_list_table")

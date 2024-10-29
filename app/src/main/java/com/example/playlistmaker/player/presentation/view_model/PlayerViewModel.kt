@@ -18,6 +18,7 @@ import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.util.SingleLiveEvent
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,7 +35,6 @@ class PlayerViewModel(
     private var timerJob: Job? = null
     val gson = Gson()
     val getType: Type? = object : TypeToken<List<Long>>() {}.type
-
 
     private val screenStateLiveData = MutableLiveData<PlayerScreenState.Content>(
         PlayerScreenState.Content(
@@ -92,7 +92,7 @@ class PlayerViewModel(
     }
 
     fun playListUpdate() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             playListInteractor
                 .getListPlayList()
                 .collect { listPlayList ->
@@ -108,7 +108,7 @@ class PlayerViewModel(
     }
 
     fun checkingTrackFavourites() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             favouriteInteractor
                 .getFavouriteTracksId(searchTrackMapper.mapTrack(track))
                 .collect { trackId ->
@@ -126,26 +126,21 @@ class PlayerViewModel(
     }
 
     fun checkingTrackPlayList(playList: PlayList, trackSearch: SearchTrack) {
-
         val tracksIdList = listFromJson(playList.tracksIdList)
-
         if (tracksIdList.indexOf(trackSearch.trackId) == -1) {
-            tracksIdList.add(trackSearch.trackId)
-            playList.tracksIdList = listToJson(tracksIdList)
-            playList.numberTracks = tracksIdList.size.toLong()
-            viewModelScope.launch {
+            tracksIdList.add(0, trackSearch.trackId)
+            val playListCopy = playList.copy(tracksIdList = listToJson(tracksIdList),numberTracks = tracksIdList.size.toLong() )
+            viewModelScope.launch(Dispatchers.IO) {
                 playListInteractor
-                    .updatePlayList(playList)
+                    .updatePlayList(playListCopy)
                 playListUpdate()
-
                 playListInteractor
                     .saveTack(searchTrackMapper.mapTrack(trackSearch))
-
                 showToast.postValue(
                     "Добавлено в плейлист ${playList.playListName}"
                 )
-                playerBottomSheetLiveData.postValue(PlayerBottomSheetState.Nothing())
             }
+            playerBottomSheetLiveData.postValue(PlayerBottomSheetState.Nothing())
 
         } else {
             showToast.postValue(

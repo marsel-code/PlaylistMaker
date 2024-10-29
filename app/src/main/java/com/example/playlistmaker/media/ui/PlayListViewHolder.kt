@@ -1,7 +1,6 @@
 package com.example.playlistmaker.media.ui
 
 import android.util.TypedValue
-
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,20 +13,23 @@ import com.example.playlistmaker.databinding.PlayListItemBinding
 
 import com.example.playlistmaker.media.domain.model.PlayList
 
-class PlayListViewHolder(private val binding: PlayListItemBinding): RecyclerView.ViewHolder(binding.root) {
+class PlayListViewHolder(private val binding: PlayListItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     private val image: ImageView = binding.playListImage
     private val title: TextView = binding.title
-    private val description: TextView = binding.numberTracks
+    private val numberTracks: TextView = binding.numberTracks
 
     fun bind(playList: PlayList) {
-
         title.text = playList.playListName
-        description.text = playList.numberTracks.toString()
+        numberTracks.text = itemView.context.resources.getQuantityString(
+            R.plurals.plurals_track,
+            playList.numberTracks.toInt(), playList.numberTracks.toInt()
+        )
 
         Glide.with(itemView)
             .load(playList.artworkUri)
-            .placeholder(R.drawable.no_reply)
+            .placeholder(R.drawable.placeholder_info)
             .centerCrop()
             .transform(
                 MultiTransformation(

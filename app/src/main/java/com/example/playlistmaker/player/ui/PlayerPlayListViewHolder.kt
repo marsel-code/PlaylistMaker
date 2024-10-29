@@ -22,7 +22,10 @@ class PlayerPlayListViewHolder(binding: PlayerPlayListItemBinding) :
 
     fun bind(playList: PlayList) {
         playListNme.text = playList.playListName
-        numberTacks.text = playList.numberTracks.toString()
+        numberTacks.text = itemView.context.resources.getQuantityString(
+        R.plurals.plurals_track,
+        playList.numberTracks.toInt(), playList.numberTracks.toInt()
+        )
 
         Glide.with(itemView)
             .load(playList.artworkUri)

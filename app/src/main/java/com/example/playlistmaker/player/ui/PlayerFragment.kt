@@ -35,14 +35,6 @@ import org.koin.core.parameter.parametersOf
 
 class PlayerFragment : Fragment() {
 
-    companion object {
-        private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
-        private const val CLICK_DEBOUNCE_DELAY = 300L
-
-        fun createArgs(searchTrack: SearchTrack): Bundle =
-            bundleOf(GET_TRACK_PLAYER to searchTrack)
-    }
-
     private lateinit var backButton: Toolbar
     private lateinit var imageTrackPlayer: ImageView
     private lateinit var trackNamePlayer: TextView
@@ -124,7 +116,7 @@ class PlayerFragment : Fragment() {
         })
 
         onClickDebounce = debounce<PlayList>(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false,
         ) { playList ->
@@ -259,5 +251,13 @@ class PlayerFragment : Fragment() {
         _binding = null
         adapter = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val GET_TRACK_PLAYER = "GET_TRACK_PLAYER"
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 300L
+
+        fun createArgs(searchTrack: SearchTrack): Bundle =
+            bundleOf(GET_TRACK_PLAYER to searchTrack)
     }
 }

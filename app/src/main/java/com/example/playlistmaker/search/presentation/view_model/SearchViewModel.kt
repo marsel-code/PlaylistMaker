@@ -14,6 +14,7 @@ import com.example.playlistmaker.search.presentation.mapper.SearchTrackMapper
 import com.example.playlistmaker.search.presentation.model.SearchTrack
 import com.example.playlistmaker.search.presentation.state.SearchState
 import com.example.playlistmaker.util.debounce
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -51,7 +52,7 @@ class SearchViewModel(
         if (newSearchText.isNotEmpty()) {
             renderState((SearchState.Loading))
 
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 trackInteractor
                     .searchTracks(newSearchText)
                     .collect { pair ->

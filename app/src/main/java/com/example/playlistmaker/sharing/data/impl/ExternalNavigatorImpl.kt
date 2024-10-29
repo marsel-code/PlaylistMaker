@@ -6,6 +6,7 @@ import android.net.Uri
 import com.example.playlistmaker.R
 import com.example.playlistmaker.sharing.domain.ExternalNavigator
 import com.example.playlistmaker.sharing.domain.model.EmailData
+import org.w3c.dom.Text
 
 class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
 
@@ -13,6 +14,14 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
         val shareIntent = Intent(Intent.ACTION_VIEW)
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         shareIntent.data = Uri.parse(context.getString(R.string.agreementUser))
+        context.startActivity(shareIntent)
+    }
+
+    override fun shareText(text: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        shareIntent.setType("text/playn")
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text)
         context.startActivity(shareIntent)
     }
 

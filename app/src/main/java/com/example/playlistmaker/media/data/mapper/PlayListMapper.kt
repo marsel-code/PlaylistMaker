@@ -4,9 +4,15 @@ import com.example.playlistmaker.media.data.db.entity.PlayListEntity
 import com.example.playlistmaker.media.data.db.entity.SaveTrackEntity
 import com.example.playlistmaker.media.domain.model.PlayList
 import com.example.playlistmaker.search.domain.models.Track
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
 
 class PlayListMapper {
+
+    val gson = Gson()
+    val getType: Type? = object : TypeToken<List<Long>>() {}.type
 
     fun map(playListEntity: PlayListEntity):
             PlayList {
@@ -48,5 +54,12 @@ class PlayListMapper {
         )
     }
 
+    fun listFromJson(jsonValue: String): ArrayList<Long> {
+        return gson.fromJson(jsonValue, getType)
+    }
+
+    fun listToJson(jsonValue: ArrayList<Long>): String {
+        return gson.toJson(jsonValue)
+    }
 
 }

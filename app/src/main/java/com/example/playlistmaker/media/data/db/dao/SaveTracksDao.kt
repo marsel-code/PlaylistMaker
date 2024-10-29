@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.playlistmaker.media.data.db.entity.SaveTrackEntity
-
+import com.example.playlistmaker.media.data.db.entity.TrackEntity
 
 
 @Dao
@@ -25,4 +25,6 @@ interface SaveTracksDao {
     @Query("SELECT * FROM save_track_table WHERE trackId = :trackId")
     suspend fun getTrackById(trackId: Long): SaveTrackEntity
 
+    @Query("SELECT * FROM save_track_table WHERE trackId IN (:trackId)")
+    suspend fun getTrackListById(trackId: List<Long>): List<SaveTrackEntity>
 }

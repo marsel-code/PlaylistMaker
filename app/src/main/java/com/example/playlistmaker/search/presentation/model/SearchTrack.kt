@@ -17,5 +17,4 @@ data class SearchTrack(
     val previewUrl: String?,
     val artworkUrl512: String?,
     var isFavorite: Boolean = false
-
-):Parcelable
+) : Parcelable

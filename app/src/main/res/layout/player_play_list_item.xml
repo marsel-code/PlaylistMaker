@@ -34,11 +34,6 @@
                     android:layout_marginStart="8dp"
                     />
             </LinearLayout>
-
-            <TextView
-                  style="@style/playListTrackNumberText"
-                android:text="@string/tracks" />
-
         </LinearLayout>
     </LinearLayout>
 
